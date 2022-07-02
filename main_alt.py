@@ -15,15 +15,48 @@ i = 0
 while(True):
     inp=list(map(str,input().split()))
     input_list.append(inp)
-    if(input_list[i][0]=='add'):
-        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-            count = count + 1
-            final_print.append(op_code['add']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-            i+=1
-                # error handling for wrong input 
     if('hlt' in inp):
         break
 
+len_list = len(input_list)
+
+# Type A
+if(input_list[i][0]=='add'):
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+        count = count + 1
+        final_print.append(op_code['add']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i+=1
+            # error handling for wrong input 
+
+elif(input_list[i][0]=='sub'):
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+        count = count + 1
+        final_print.append(op_code['sub']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i+=1
+
+elif(input_list[i][0]=='mul'):
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+        count = count + 1
+        final_print.append(op_code['mul']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i+=1
+
+elif(input_list[i][0]=='xor'):
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+        count = count + 1
+        final_print.append(op_code['xor']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i+=1
+
+elif(input_list[i][0]=='or'):
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+        count = count + 1
+        final_print.append(op_code['or']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i+=1
+
+elif(input_list[i][0]=='and'):
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+        count = count + 1
+        final_print.append(op_code['and']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i+=1
 
 print(input_list)
 print(final_print)
