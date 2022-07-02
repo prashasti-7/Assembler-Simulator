@@ -1,5 +1,6 @@
 l=[]
 final_print=[]
+var_list = []
 count = 1
 def dec_to_bi(n):
     st=''
@@ -18,6 +19,7 @@ op_code={'add':'10000','sub':'10001','mov':{1:'10010',2:'10011'},'ld':'10100',
 
 reg_code={'R0':'000','R1':'001','R2':'010','R3':'011',
 'R4':'100','R5':'101','R6':'110','FLAGS':'111'}    
+
 while(True):
     inp=list(map(str,input().split()))
 
@@ -122,34 +124,30 @@ while(True):
     #Type D
     elif(inp[0]=='ld'):
         if(inp[1] in reg_code):
-            count = count + 1            
-            final_print.append(op_code['ld'] + reg_code[inp[1]] + inp[2])     ######doubt
+            count = count + 1             
+            final_print.append(op_code['ld'] + reg_code[inp[1]] + value)     ######doubt
 
     elif(inp[0]=='st'):
         if(inp[1] in reg_code):
-            count = count + 1   
-            loc = dec_to_bi(count) 
-            value = str(loc) 
-            length = len(value)
-            t = '0'*(8-length)       
-            final_print.append(op_code['st'] + reg_code[inp[1]] + t + value)     ######doubt
+            count = count + 1        
+            final_print.append(op_code['st'] + reg_code[inp[1]] + value)     ######doubt
 
     #Type E
     elif(inp[0]=='jmp'):
-        count = count + 1        
-        final_print.append(op_code['jmp'] + '00000000000')     ######doubt
+        count = count + 1                
+        final_print.append(op_code['jmp'] + '000' + value)     ######doubt
 
     elif(inp[0]=='jlt'):
-        count = count + 1        
-        final_print.append(op_code['jlt'] + '00000000000')     ######doubt
+        count = count + 1
+        final_print.append(op_code['jlt'] + '000' + value)     ######doubt
 
     elif(inp[0]=='jgt'):
         count = count + 1
-        final_print.append(op_code['jgt'] + '00000000000')     ######doubt      
+        final_print.append(op_code['jgt'] + '000' +  value)     ######doubt      
 
     elif(inp[0]=='je'):
         count = count + 1
-        final_print.append(op_code['je'] + '00000000000')     ######doubt   
+        final_print.append(op_code['je'] + '000' + value)     ######doubt   
 
     #Type F
     elif(inp[0]=='hlt'):
@@ -157,4 +155,8 @@ while(True):
         final_print.append(op_code['hlt']+'00000000000')
         break
 
+    elif(inp[0]=='var'):
+        var_list. append(inp[1])
+
 print(*final_print,sep='\n')
+print(*var_list)
