@@ -1,4 +1,5 @@
 l=[]
+final_print=[]
 def dec_to_bi(n):
     st=''
     while n!=0:
@@ -22,27 +23,27 @@ while(True):
     # Type A:
     if(inp[0]=='add'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
-            print(op_code['add']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            final_print.append(op_code['add']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
                 # error handling for wrong input
     elif(inp[0]=='sub'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
-            print(op_code['sub']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            final_print.append(op_code['sub']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
 
     elif(inp[0]=='mul'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
-            print(op_code['mul']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            final_print.append(op_code['mul']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
 
     elif(inp[0]=='xor'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
-            print(op_code['xor']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            final_print.append(op_code['xor']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
  
     elif(inp[0]=='or'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
-            print(op_code['or']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            final_print.append(op_code['or']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
    
     elif(inp[0]=='and'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
-            print(op_code['and']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            final_print.append(op_code['and']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
 
     # Type B:
     elif(inp[0]=='mov'):
@@ -57,10 +58,11 @@ while(True):
                 value  = str(value)
                 length = len(value)
                 t = '0'*(8-length)
-                print(op_code['mov'][1] + reg_code[inp[1]] + t + value)
+                final_print.append(op_code['mov'][1] + reg_code[inp[1]] + t + value)
+
             else:
                 if(inp[2] in reg_code):  #Type C
-                    print(op_code['mov'][2] + '00000' + reg_code[inp[1]] + reg_code[inp[2]] )
+                    final_print.append(op_code['mov'][2] + '00000' + reg_code[inp[1]] + reg_code[inp[2]] )
     
     elif(inp[0]=='ls'):
         if(inp[1] in reg_code):
@@ -74,7 +76,7 @@ while(True):
                 value  = str(value)
                 length = len(value)
                 t = '0'*(8-length)
-                print(op_code['ls'] + reg_code[inp[1]] + t + value)
+                final_print.append(op_code['ls'] + reg_code[inp[1]] + t + value)
 
     elif(inp[0]=='rs'):
         if(inp[1] in reg_code):
@@ -88,44 +90,46 @@ while(True):
                 value  = str(value)
                 length = len(value)
                 t = '0'*(8-length)
-                print(op_code['rs'] + reg_code[inp[1]] + t + value)                
+                final_print.append(op_code['rs'] + reg_code[inp[1]] + t + value)                
 
     # Type C:
     elif(inp[0]=='div'):
         if(inp[1] in reg_code and inp[2] in reg_code):
-            print(op_code['div']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])            
+            final_print.append(op_code['div']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])            
 
     elif(inp[0]=='not'):
         if(inp[1] in reg_code and inp[2] in reg_code):
-            print(op_code['not']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
+            final_print.append(op_code['not']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
 
     elif(inp[0]=='cmp'):
         if(inp[1] in reg_code and inp[2] in reg_code):
-            print(op_code['cmp']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
+            final_print.append(op_code['cmp']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
 
     #Type D
     elif(inp[0]=='ld'):
         if(inp[1] in reg_code):
-            print(op_code['ld'] + reg_code[inp[1]] + inp[2])     ######doubt
+            final_print.append(op_code['ld'] + reg_code[inp[1]] + inp[2])     ######doubt
 
     elif(inp[0]=='st'):
         if(inp[1] in reg_code):
-            print(op_code['st'] + reg_code[inp[1]] + inp[2])     ######doubt
+            final_print.append(op_code['st'] + reg_code[inp[1]] + inp[2])     ######doubt
 
     #Type E
     elif(inp[0]=='jmp'):
-        print(op_code['jmp'] + inp[1])     ######doubt
+        final_print.append(op_code['jmp'] + '00000000000')     ######doubt
 
     elif(inp[0]=='jlt'):
-        print(op_code['jlt'] + inp[1])     ######doubt
+        final_print.append(op_code['jlt'] + '00000000000')     ######doubt
 
     elif(inp[0]=='jgt'):
-        print(op_code['jgt'] + inp[1])     ######doubt      
+        final_print.append(op_code['jgt'] + '00000000000')     ######doubt      
 
     elif(inp[0]=='je'):
-        print(op_code['je'] + inp[1])     ######doubt   
+        final_print.append(op_code['je'] + '00000000000')     ######doubt   
 
     #Type F
     elif(inp[0]=='hlt'):
-        print(op_code['hlt']+'00000000000')
+        final_print.append(op_code['hlt']+'00000000000')
         break
+
+print(*final_print,sep='\n')
