@@ -9,4 +9,5 @@ Registers={'R0':'000','R1':'001','R2':'010','R3':'011',
 while(True):
     inp=list(map(str,input().split()))
     if(inp[0]=='add'):
-        print("wow")
+        if(inp[1]=='reg1'):
+            print("wow")
