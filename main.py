@@ -127,4 +127,5 @@ while(True):
 
     #Type F
     elif(inp[0]=='hlt'):
+        print(op_code['hlt']+'00000000000')
         break
