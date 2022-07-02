@@ -1,5 +1,6 @@
 l=[]
 final_print=[]
+count = 1
 def dec_to_bi(n):
     st=''
     while n!=0:
@@ -23,26 +24,32 @@ while(True):
     # Type A:
     if(inp[0]=='add'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
+            count = count + 1
             final_print.append(op_code['add']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
                 # error handling for wrong input
     elif(inp[0]=='sub'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
+            count = count + 1
             final_print.append(op_code['sub']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
 
     elif(inp[0]=='mul'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
+            count = count + 1            
             final_print.append(op_code['mul']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
 
     elif(inp[0]=='xor'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
+            count = count + 1            
             final_print.append(op_code['xor']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
  
     elif(inp[0]=='or'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
+            count = count + 1            
             final_print.append(op_code['or']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
    
     elif(inp[0]=='and'):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
+            count = count + 1            
             final_print.append(op_code['and']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
 
     # Type B:
@@ -51,6 +58,7 @@ while(True):
             word = inp[2]
             word_list = list(word)
             if(word_list[0]=='$'):
+                count = count + 1
                 word_list.remove('$')
                 word_final = ''.join(word_list)
                 decimal_number = str(word_final)
@@ -62,6 +70,7 @@ while(True):
 
             else:
                 if(inp[2] in reg_code):  #Type C
+                    count = count + 1
                     final_print.append(op_code['mov'][2] + '00000' + reg_code[inp[1]] + reg_code[inp[2]] )
     
     elif(inp[0]=='ls'):
@@ -69,6 +78,7 @@ while(True):
             word = inp[2]
             word_list = list(word)
             if(word_list[0]=='$'):
+                count = count + 1
                 word_list.remove('$')
                 word_final = ''.join(word_list)
                 decimal_number = str(word_final)
@@ -83,6 +93,7 @@ while(True):
             word = inp[2]
             word_list = list(word)
             if(word_list[0]=='$'):
+                count = count + 1
                 word_list.remove('$')
                 word_final = ''.join(word_list)
                 decimal_number = str(word_final)
@@ -95,40 +106,54 @@ while(True):
     # Type C:
     elif(inp[0]=='div'):
         if(inp[1] in reg_code and inp[2] in reg_code):
+            count = count + 1
             final_print.append(op_code['div']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])            
 
     elif(inp[0]=='not'):
         if(inp[1] in reg_code and inp[2] in reg_code):
+            count = count + 1            
             final_print.append(op_code['not']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
 
     elif(inp[0]=='cmp'):
         if(inp[1] in reg_code and inp[2] in reg_code):
+            count = count + 1            
             final_print.append(op_code['cmp']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
 
     #Type D
     elif(inp[0]=='ld'):
         if(inp[1] in reg_code):
+            count = count + 1            
             final_print.append(op_code['ld'] + reg_code[inp[1]] + inp[2])     ######doubt
 
     elif(inp[0]=='st'):
         if(inp[1] in reg_code):
-            final_print.append(op_code['st'] + reg_code[inp[1]] + inp[2])     ######doubt
+            count = count + 1   
+            loc = dec_to_bi(count) 
+            value = str(loc) 
+            length = len(value)
+            t = '0'*(8-length)       
+            final_print.append(op_code['st'] + reg_code[inp[1]] + t + value)     ######doubt
 
     #Type E
     elif(inp[0]=='jmp'):
+        count = count + 1        
         final_print.append(op_code['jmp'] + '00000000000')     ######doubt
 
     elif(inp[0]=='jlt'):
+        count = count + 1        
         final_print.append(op_code['jlt'] + '00000000000')     ######doubt
 
     elif(inp[0]=='jgt'):
+        count = count + 1
         final_print.append(op_code['jgt'] + '00000000000')     ######doubt      
 
     elif(inp[0]=='je'):
+        count = count + 1
         final_print.append(op_code['je'] + '00000000000')     ######doubt   
 
     #Type F
     elif(inp[0]=='hlt'):
+        count = count + 1
         final_print.append(op_code['hlt']+'00000000000')
         break
 
