@@ -66,6 +66,7 @@ while(True):
             value2 = bi_to_dec(reg_val[inp[2]])
             if (value1-value2<0):
                 flags[12]==1
+                reg_val[inp[3]]='00000000'
 
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
@@ -78,7 +79,7 @@ while(True):
             value2 = bi_to_dec(reg_val[inp[2]])
             if (value1*value2>255):
                 flags[12]==1
-                reg_val[inp[3]]='00000000'
+                
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
 
