@@ -63,6 +63,9 @@ for i in range(len_list):
             final_print.append(op_code['add']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             value1 = bi_to_dec(reg_val[input_list[i][1]])
             value2 = bi_to_dec(reg_val[input_list[i][2]])
+            sum=value1+value2
+            sum=dec_to_bi(sum)
+            reg_val[inp[3]]=sum
             if (value1+value2>255):
                 flags[12]==1
             i+=1
@@ -76,6 +79,9 @@ for i in range(len_list):
             final_print.append(op_code['sub']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             value1 = bi_to_dec(reg_val[input_list[i][1]])
             value2 = bi_to_dec(reg_val[input_list[i][2]])
+            diff=value1-value2
+            diff=dec_to_bi(diff)
+            reg_val[inp[3]]=diff
             if (value1-value2<0):
                 flags[12]==1
                 reg_val[inp[3]]='00000000'
@@ -89,6 +95,9 @@ for i in range(len_list):
             final_print.append(op_code['mul']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             value1 = bi_to_dec(reg_val[input_list[i][1]])
             value2 = bi_to_dec(reg_val[input_list[i][2]])
+            prod=value1*value2
+            prod=dec_to_bi(prod)
+            reg_val[inp[3]]=prod
             if (value1*value2>255):
                 flags[12]==1
             i=i+1
@@ -197,7 +206,13 @@ for i in range(len_list):
     # Type C:
     elif(input_list[i][0]=='div'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code):
-            final_print.append(op_code['div']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])   
+            final_print.append(op_code['div']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
+            quotient=value1/value2
+            rem=value1%value2
+            quotient=dec_to_bi(quotient)
+            rem=dec_to_bi(rem)
+            r0=quotient
+            r1=rem   
             i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)         
