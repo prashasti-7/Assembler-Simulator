@@ -53,6 +53,10 @@ while(True):
             final_print.append(op_code['add']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
             value1 = bi_to_dec(reg_val[inp[1]])
             value2 = bi_to_dec(reg_val[inp[2]])
+            sum=value1+value2
+            sum=dec_to_bi(sum)
+            reg_val[inp[3]]=sum
+
             if (value1+value2>255):
                 flags[12]==1
         else:
@@ -64,6 +68,9 @@ while(True):
             final_print.append(op_code['sub']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
             value1 = bi_to_dec(reg_val[inp[1]])
             value2 = bi_to_dec(reg_val[inp[2]])
+            diff=value1-value2
+            diff=dec_to_bi(diff)
+            reg_val[inp[3]]=diff
             if (value1-value2<0):
                 flags[12]==1
                 reg_val[inp[3]]='00000000'
@@ -77,6 +84,9 @@ while(True):
             final_print.append(op_code['mul']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
             value1 = bi_to_dec(reg_val[inp[1]])
             value2 = bi_to_dec(reg_val[inp[2]])
+            prod=value1*value2
+            prod=dec_to_bi(prod)
+            reg_val[inp[3]]=prod
             if (value1*value2>255):
                 flags[12]==1
                 
