@@ -203,71 +203,77 @@ for i in range(len_list):
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)         
             i+=1
 
-    elif(inp[0]=='not'):
-        if(inp[1] in reg_code and inp[2] in reg_code):
-            count = count + 1            
-            final_print.append(op_code['not']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])
+    elif(input_list[i][0]=='not'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code):
+            final_print.append(op_code['not']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
+            i=i+1
         else:
-            error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)         
+            error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
+            i=i+1      
 
-    elif(inp[0]=='cmp'):
-        if(inp[1] in reg_code and inp[2] in reg_code):
-            count = count + 1            
-            final_print.append(op_code['cmp']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])  
-            value1 = bi_to_dec(reg_val[inp[1]])
-            value2 = bi_to_dec(reg_val[inp[2]])
+    elif(input_list[i][0]=='cmp'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code):
+            final_print.append(op_code['cmp']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])  
+            value1 = bi_to_dec(reg_val[input_list[i][1]])
+            value2 = bi_to_dec(reg_val[input_list[i][2]])
             if(value1 < value2):
                 flags[13] == 1
             elif(value1 > value2):
                 flags[14] == 1
             elif(value1 == value2):
                 flags[15] == 1
+            i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
+            i+=1
 
     #Type D
-    elif(inp[0]=='ld'):
-        if(inp[1] in reg_code):
-            count = count + 1             
-            final_print.append(op_code['ld'] + reg_code[inp[1]] + value)     ######doubt
+    elif(input_list[i][0]=='ld'):
+        if(input_list[i][1] in reg_code):
+            final_print.append(op_code['ld'] + reg_code[input_list[i][1]] + value)     ######doubt
+            i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
+            i+=1
 
-    elif(inp[0]=='st'):
-        if(inp[1] in reg_code):
-            count = count + 1        
-            final_print.append(op_code['st'] + reg_code[inp[1]] + value)     ######doubt
+    elif(input_list[i][0]=='st'):
+        if(input_list[i][1] in reg_code):
+            final_print.append(op_code['st'] + reg_code[input_list[i][1]] + value)     ######doubt
+            i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
+            i+=1
 
     #Type E
-    elif(inp[0]=='jmp'):
-        count = count + 1                
+    elif(input_list[i][0]=='jmp'):
         final_print.append(op_code['jmp'] + '000' + value)     ######doubt
+        i+=1
 
-    elif(inp[0]=='jlt'):
-        count = count + 1
+    elif(input_list[i][0]=='jlt'):
         final_print.append(op_code['jlt'] + '000' + value)     ######doubt
+        i+=1
 
-    elif(inp[0]=='jgt'):
-        count = count + 1
+    elif(input_list[i][0]=='jgt'):
         final_print.append(op_code['jgt'] + '000' +  value)     ######doubt      
+        i+=1
 
-    elif(inp[0]=='je'):
-        count = count + 1
+    elif(input_list[i][0]=='je'):
         final_print.append(op_code['je'] + '000' + value)     ######doubt   
+        i=i+1
 
     #Type F
-    elif(inp[0]=='hlt'):
-        count = count + 1
+    elif(input_list[i][0]=='hlt'):
         final_print.append(op_code['hlt']+'00000000000')
-        break
+        i+=1
+        if(i==len_list):
+            break
 
     elif(inp[0]=='var'):
         var_list. append(inp[1])
     
     else:
         error_list.append("Incorrect instruction.")
+        i+=1
 if (len(error_list)>0):
     print(error_list[0])
     #print(*error_list,sep='\n')
