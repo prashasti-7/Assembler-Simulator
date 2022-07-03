@@ -51,6 +51,10 @@ while(True):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
             count = count + 1
             final_print.append(op_code['add']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            value1 = bi_to_dec(reg_val[inp[1]])
+            value2 = bi_to_dec(reg_val[inp[2]])
+            if (value1+value2>255):
+                flags[12]==1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
                 # error handling for wrong input
@@ -58,6 +62,11 @@ while(True):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
             count = count + 1
             final_print.append(op_code['sub']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            value1 = bi_to_dec(reg_val[inp[1]])
+            value2 = bi_to_dec(reg_val[inp[2]])
+            if (value1-value2<0):
+                flags[12]==1
+
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
 
@@ -65,6 +74,11 @@ while(True):
         if(inp[1] in reg_code and inp[2] in reg_code and inp[3] in reg_code):
             count = count + 1            
             final_print.append(op_code['mul']+'00' + reg_code[inp[1]] + reg_code[inp[2]] + reg_code[inp[3]])
+            value1 = bi_to_dec(reg_val[inp[1]])
+            value2 = bi_to_dec(reg_val[inp[2]])
+            if (value1*value2>255):
+                flags[12]==1
+                reg_val[inp[3]]='00000000'
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
 
