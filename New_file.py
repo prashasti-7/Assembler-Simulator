@@ -53,152 +53,155 @@ while(True):
     if('hlt' in inp):
         break
 
-# Type A:
-if(input_list[i][0]=='add'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        final_print.append(op_code['add']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-        i = i + 1
-            # error handling for wrong input
-elif(input_list[i][0]=='sub'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        final_print.append(op_code['sub']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-        i = i + 1
+len_list = len(input_list)
 
-elif(input_list[i][0]=='mul'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):        
-        final_print.append(op_code['mul']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-        i = i + 1    
+for i in range(len_list):
+    # Type A:
+    if(input_list[i][0]=='add'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+            final_print.append(op_code['add']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i = i + 1
+                # error handling for wrong input
+    elif(input_list[i][0]=='sub'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+            final_print.append(op_code['sub']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i = i + 1
 
-elif(input_list[i][0]=='xor'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):          
-        final_print.append(op_code['xor']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-        i = i + 1  
+    elif(input_list[i][0]=='mul'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):        
+            final_print.append(op_code['mul']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i = i + 1    
 
-elif(input_list[i][0]=='or'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):           
-        final_print.append(op_code['or']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-        i = i + 1  
+    elif(input_list[i][0]=='xor'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):          
+            final_print.append(op_code['xor']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i = i + 1  
 
-elif(input_list[i][0]=='and'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):           
-        final_print.append(op_code['and']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-        i = i + 1 
+    elif(input_list[i][0]=='or'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):           
+            final_print.append(op_code['or']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i = i + 1  
 
-# Type B:
-elif(input_list[i][0]=='mov'):
-    if(inp[1] in reg_code):
-        word = inp[2]
-        word_list = list(word)
-        if(word_list[0]=='$'):
-            count = count + 1
-            word_list.remove('$')
-            word_final = ''.join(word_list)
-            decimal_number = str(word_final)
-            value = dec_to_bi(decimal_number)
-            value  = str(value)
-            length = len(value)
-            t = '0'*(8-length)
-            final_print.append(op_code['mov'][1] + reg_code[inp[1]] + t + value)
-            for i in range(16-length):
-                reg_val[inp[1]].append(0)
-            for i in value:
-                reg_val[inp[1]].append(i)
+    elif(input_list[i][0]=='and'):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):           
+            final_print.append(op_code['and']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i = i + 1 
 
-        else:
-            if(inp[2] in reg_code):  #Type C
+    # Type B:
+    elif(input_list[i][0]=='mov'):
+        if(inp[1] in reg_code):
+            word = inp[2]
+            word_list = list(word)
+            if(word_list[0]=='$'):
                 count = count + 1
-                final_print.append(op_code['mov'][2] + '00000' + reg_code[inp[1]] + reg_code[inp[2]] )
-                reg_val[inp[2]] = reg_val[inp[1]].copy()
+                word_list.remove('$')
+                word_final = ''.join(word_list)
+                decimal_number = str(word_final)
+                value = dec_to_bi(decimal_number)
+                value  = str(value)
+                length = len(value)
+                t = '0'*(8-length)
+                final_print.append(op_code['mov'][1] + reg_code[inp[1]] + t + value)
+                for i in range(16-length):
+                    reg_val[inp[1]].append(0)
+                for i in value:
+                    reg_val[inp[1]].append(i)
 
-elif(input_list[i][0]=='ls'):
-    if(inp[1] in reg_code):
-        word = inp[2]
-        word_list = list(word)
-        if(word_list[0]=='$'):
+            else:
+                if(inp[2] in reg_code):  #Type C
+                    count = count + 1
+                    final_print.append(op_code['mov'][2] + '00000' + reg_code[inp[1]] + reg_code[inp[2]] )
+                    reg_val[inp[2]] = reg_val[inp[1]].copy()
+
+    elif(input_list[i][0]=='ls'):
+        if(inp[1] in reg_code):
+            word = inp[2]
+            word_list = list(word)
+            if(word_list[0]=='$'):
+                count = count + 1
+                word_list.remove('$')
+                word_final = ''.join(word_list)
+                decimal_number = str(word_final)
+                value = dec_to_bi(decimal_number)
+                value  = str(value)
+                length = len(value)
+                t = '0'*(8-length)
+                final_print.append(op_code['ls'] + reg_code[inp[1]] + t + value)
+
+    elif(input_list[i][0]=='rs'):
+        if(inp[1] in reg_code):
+            word = inp[2]
+            word_list = list(word)
+            if(word_list[0]=='$'):
+                count = count + 1
+                word_list.remove('$')
+                word_final = ''.join(word_list)
+                decimal_number = str(word_final)
+                value = dec_to_bi(decimal_number)
+                value  = str(value)
+                length = len(value)
+                t = '0'*(8-length)
+                final_print.append(op_code['rs'] + reg_code[inp[1]] + t + value)                
+
+    # Type C:
+    elif(input_list[i][0]=='div'):
+        if(inp[1] in reg_code and inp[2] in reg_code):
             count = count + 1
-            word_list.remove('$')
-            word_final = ''.join(word_list)
-            decimal_number = str(word_final)
-            value = dec_to_bi(decimal_number)
-            value  = str(value)
-            length = len(value)
-            t = '0'*(8-length)
-            final_print.append(op_code['ls'] + reg_code[inp[1]] + t + value)
+            final_print.append(op_code['div']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])            
 
-elif(input_list[i][0]=='rs'):
-    if(inp[1] in reg_code):
-        word = inp[2]
-        word_list = list(word)
-        if(word_list[0]=='$'):
-            count = count + 1
-            word_list.remove('$')
-            word_final = ''.join(word_list)
-            decimal_number = str(word_final)
-            value = dec_to_bi(decimal_number)
-            value  = str(value)
-            length = len(value)
-            t = '0'*(8-length)
-            final_print.append(op_code['rs'] + reg_code[inp[1]] + t + value)                
+    elif(input_list[i][0]=='not'):
+        if(inp[1] in reg_code and inp[2] in reg_code):
+            count = count + 1            
+            final_print.append(op_code['not']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
 
-# Type C:
-elif(input_list[i][0]=='div'):
-    if(inp[1] in reg_code and inp[2] in reg_code):
+    elif(input_list[i][0]=='cmp'):
+        if(inp[1] in reg_code and inp[2] in reg_code):
+            count = count + 1            
+            final_print.append(op_code['cmp']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])  
+            value1 = bi_to_dec(reg_val[inp[1]])
+            value2 = bi_to_dec(reg_val[inp[2]])
+            if(value1 < value2):
+                flags[13] == 1
+            elif(value1 > value2):
+                flags[14] == 1
+            elif(value1 == value2):
+                flags[15] == 1
+
+    # #Type D
+    # elif(inp[0]=='ld'):
+    #     if(inp[1] in reg_code):
+    #         count = count + 1             
+    #         final_print.append(op_code['ld'] + reg_code[inp[1]] + value)     ######doubt
+
+    # elif(inp[0]=='st'):
+    #     if(inp[1] in reg_code):
+    #         count = count + 1        
+    #         final_print.append(op_code['st'] + reg_code[inp[1]] + value)     ######doubt
+
+    # #Type E
+    # elif(inp[0]=='jmp'):
+    #     count = count + 1                
+    #     final_print.append(op_code['jmp'] + '000' + value)     ######doubt
+
+    # elif(inp[0]=='jlt'):
+    #     count = count + 1
+    #     final_print.append(op_code['jlt'] + '000' + value)     ######doubt
+
+    # elif(inp[0]=='jgt'):
+    #     count = count + 1
+    #     final_print.append(op_code['jgt'] + '000' +  value)     ######doubt      
+
+    # elif(inp[0]=='je'):
+    #     count = count + 1
+    #     final_print.append(op_code['je'] + '000' + value)     ######doubt   
+
+    #Type F
+    elif(inp[0]=='hlt'):
         count = count + 1
-        final_print.append(op_code['div']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])            
+        final_print.append(op_code['hlt']+'00000000000')
 
-elif(input_list[i][0]=='not'):
-    if(inp[1] in reg_code and inp[2] in reg_code):
-        count = count + 1            
-        final_print.append(op_code['not']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])         
-
-elif(input_list[i][0]=='cmp'):
-    if(inp[1] in reg_code and inp[2] in reg_code):
-        count = count + 1            
-        final_print.append(op_code['cmp']+'00000' + reg_code[inp[1]] + reg_code[inp[2]])  
-        value1 = bi_to_dec(reg_val[inp[1]])
-        value2 = bi_to_dec(reg_val[inp[2]])
-        if(value1 < value2):
-            flags[13] == 1
-        elif(value1 > value2):
-            flags[14] == 1
-        elif(value1 == value2):
-            flags[15] == 1
-
-# #Type D
-# elif(inp[0]=='ld'):
-#     if(inp[1] in reg_code):
-#         count = count + 1             
-#         final_print.append(op_code['ld'] + reg_code[inp[1]] + value)     ######doubt
-
-# elif(inp[0]=='st'):
-#     if(inp[1] in reg_code):
-#         count = count + 1        
-#         final_print.append(op_code['st'] + reg_code[inp[1]] + value)     ######doubt
-
-# #Type E
-# elif(inp[0]=='jmp'):
-#     count = count + 1                
-#     final_print.append(op_code['jmp'] + '000' + value)     ######doubt
-
-# elif(inp[0]=='jlt'):
-#     count = count + 1
-#     final_print.append(op_code['jlt'] + '000' + value)     ######doubt
-
-# elif(inp[0]=='jgt'):
-#     count = count + 1
-#     final_print.append(op_code['jgt'] + '000' +  value)     ######doubt      
-
-# elif(inp[0]=='je'):
-#     count = count + 1
-#     final_print.append(op_code['je'] + '000' + value)     ######doubt   
-
-#Type F
-elif(inp[0]=='hlt'):
-    count = count + 1
-    final_print.append(op_code['hlt']+'00000000000')
-
-elif(inp[0]=='var'):
-    var_list. append(inp[1])
+    elif(inp[0]=='var'):
+        var_list. append(inp[1])
 
 print(*final_print,sep='\n')
 print(*var_list)
