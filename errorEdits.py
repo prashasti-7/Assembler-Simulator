@@ -1,3 +1,5 @@
+input_list = [list(map(int, line.strip().split(','))) for line in open('test.txt')]
+
 #to store value in 16- bit register
 r0 = []
 r1 = []
