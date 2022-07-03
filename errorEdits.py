@@ -1,4 +1,8 @@
-input_list = [list(map(int, line.strip().split(','))) for line in open('test.txt')]
+input_list = []
+final_print = []
+i = 0
+
+input_list = [list(map(str, line.strip().split(','))) for line in open('Test_Case.txt')]
 
 #to store value in 16- bit register
 r0 = []
@@ -46,15 +50,11 @@ reg_code={'R0':'000','R1':'001','R2':'010','R3':'011',
 
 reg_val = {'R0': r0, 'R1': r1, 'R2':r2, 'R3': r3, 'R4':r4, 'R5':r5, 'R6':r6, 'FLAGS': flags}
 
-input_list = []
-final_print = []
-i = 0
-
-while(True):
-    inp=list(map(str,input().split()))
-    input_list.append(inp)
-    if('hlt' in inp):
-        break
+# while(True):
+#     inp=list(map(str,input().split()))
+#     input_list.append(inp)
+#     if('hlt' in inp):
+#         break
 
 len_list = len(input_list)
 
@@ -67,7 +67,7 @@ for i in range(len_list):
             value2 = bi_to_dec(reg_val[input_list[i][2]])
             sum=value1+value2
             sum=dec_to_bi(sum)
-            reg_val[inp[3]]=sum
+            reg_val[input_list[i][0]]=sum
             if (value1+value2>255):
                 flags[12]==1
             i+=1
@@ -83,10 +83,10 @@ for i in range(len_list):
             value2 = bi_to_dec(reg_val[input_list[i][2]])
             diff=value1-value2
             diff=dec_to_bi(diff)
-            reg_val[inp[3]]=diff
+            reg_val[input_list[i][0]]=diff
             if (value1-value2<0):
                 flags[12]==1
-                reg_val[inp[3]]='00000000'
+                reg_val[input_list[i][0]]='00000000'
             i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
@@ -99,7 +99,7 @@ for i in range(len_list):
             value2 = bi_to_dec(reg_val[input_list[i][2]])
             prod=value1*value2
             prod=dec_to_bi(prod)
-            reg_val[inp[3]]=prod
+            reg_val[input_list[i][0]]=prod
             if (value1*value2>255):
                 flags[12]==1
             i=i+1
@@ -318,8 +318,8 @@ for i in range(len_list):
         if(i==len_list):
             break
 
-    elif(inp[0]=='var'):
-        var_list. append(inp[1])
+    elif(input_list[i][0]=='var'):
+        var_list. append(input_list[i][0])
     
     else:
         error_list.append("Incorrect instruction.")
@@ -327,5 +327,10 @@ for i in range(len_list):
 if (len(error_list)>0):
     print(error_list[0])
     #print(*error_list,sep='\n')
+
+output = open('output.txt', 'w')
+for k in final_print:
+    output.writelines(k)
+
 print(*final_print,sep='\n')
 print(*var_list)
