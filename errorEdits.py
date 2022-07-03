@@ -109,6 +109,13 @@ for i in range(len_list):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['xor']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             i = i + 1
+            for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
+
+                if reg_val[input_list[i][1]][i] == reg_val[input_list[i][2]][i]:
+                    reg_val[input_list[i][3]][i].append(0)
+                else:
+                    reg_val[input_list[i][3]][i].append(1)
+
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
             i+=1
@@ -117,6 +124,15 @@ for i in range(len_list):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['or']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             i = i + 1
+
+            for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
+
+                if reg_val[input_list[i][1]][i] == 0 and reg_val[input_list[i][2]][i] == 0:
+                    reg_val[input_list[i][3]][i].append(0)
+
+                else:
+                    reg_val[input_list[i][3]][i].append(1)
+
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
             i+=1
@@ -125,6 +141,23 @@ for i in range(len_list):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['and']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             i+=1
+
+            if len(reg_val[input_list[i][1]]) != 0:
+                reg_val[input_list[i][1]].clear()
+
+            if len(reg_val[input_list[i][2]]) != 0:
+                reg_val[input_list[i][2]].clear()
+
+            if len(reg_val[input_list[i][3]]) != 0:
+                reg_val[input_list[i][3]].clear()  
+
+            for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
+
+                if reg_val[input_list[i][1]][i] == 1 and reg_val[input_list[i][2]][i] == 1:
+                    reg_val[input_list[i][3]][i].append(1)
+                    
+                else:
+                    reg_val[input_list[i][3]][i].append(0)
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
             i+=1
