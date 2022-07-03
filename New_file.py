@@ -56,33 +56,33 @@ while(True):
 # Type A:
 if(input_list[i][0]=='add'):
     if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        i = i + 1
         final_print.append(op_code['add']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i = i + 1
             # error handling for wrong input
 elif(input_list[i][0]=='sub'):
     if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        i = i + 1
         final_print.append(op_code['sub']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i = i + 1
 
 elif(input_list[i][0]=='mul'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        i = i + 1            
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):        
         final_print.append(op_code['mul']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i = i + 1    
 
 elif(input_list[i][0]=='xor'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        i = i + 1            
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):          
         final_print.append(op_code['xor']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i = i + 1  
 
 elif(input_list[i][0]=='or'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        i = i + 1            
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):           
         final_print.append(op_code['or']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i = i + 1  
 
 elif(input_list[i][0]=='and'):
-    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-        i = i + 1            
+    if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):           
         final_print.append(op_code['and']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+        i = i + 1 
 
 # Type B:
 elif(input_list[i][0]=='mov'):
