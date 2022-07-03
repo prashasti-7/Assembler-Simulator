@@ -145,7 +145,7 @@ elif(input_list[i][0]=='st'):
 #value
 elif(input_list[i][0]=='var'):
     var_count+=1
-    i+=1
+    # i+=1
     value = var_count + len_list
     var_dict.update({input_list[i][1]:value})
 
