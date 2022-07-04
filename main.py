@@ -1,5 +1,3 @@
-from cProfile import label
-
 
 r0 = []
 r1 = []
