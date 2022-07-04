@@ -77,6 +77,7 @@ for p in range(k+1, len_list):
 
 if(input_list[len_list-1][0] != 'hlt'):
     print("Error")
+    quit()
 
 s = 0
 for h in range(len_list):
@@ -105,6 +106,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
             # error handling for wrong input
             
     elif(input_list[i][0]=='sub'):
@@ -122,6 +124,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     elif(input_list[i][0]=='mul'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
@@ -137,6 +140,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i=i+1
+            quit()
 
     elif(input_list[i][0]=='xor'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
@@ -152,6 +156,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     elif(input_list[i][0]=='or'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
@@ -169,6 +174,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     elif(input_list[i][0]=='and'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
@@ -194,6 +200,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     # Type B:
     elif(input_list[i][0]=='mov'):
@@ -205,6 +212,7 @@ for i in range(len_list):
                 word_final = ''.join(word_list)
                 if (int(word_final)>255 or int(word_final)<0):
                     error_list.append("Immediate value invalid. Line "+i)
+                    quit()
                 decimal_number = str(word_final)
                 value = dec_to_bi(decimal_number)
                 value  = str(value)
@@ -231,10 +239,12 @@ for i in range(len_list):
                 else:
                     error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
                     i+=1
+                    quit()
 
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
     
     elif(input_list[i][0]=='ls'):
         if(input_list[i][1] in reg_code):
@@ -245,6 +255,7 @@ for i in range(len_list):
                 word_final = ''.join(word_list)
                 if (int(word_final)>255 or int(word_final)<0):
                     error_list.append("Immediate value invalid. Line "+i)
+                    quit()
                 decimal_number = str(word_final)
                 value = dec_to_bi(decimal_number)
                 value  = str(value)
@@ -255,6 +266,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     elif(input_list[i][0]=='rs'):
         if(input_list[i][1] in reg_code):
@@ -265,6 +277,7 @@ for i in range(len_list):
                 word_final = ''.join(word_list)
                 if (int(word_final)>255 or int(word_final)<0):
                     error_list.append("Immediate value invalid. Line "+i)
+                    quit()
                 decimal_number = str(word_final)
                 value = dec_to_bi(decimal_number)
                 value  = str(value)
@@ -275,6 +288,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     # Type C:
     elif(input_list[i][0]=='div'):
@@ -290,6 +304,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)         
             i+=1
+            quit()
 
     elif(input_list[i][0]=='not'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code):
@@ -298,6 +313,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i=i+1      
+            quit()
 
     elif(input_list[i][0]=='cmp'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code):
@@ -314,6 +330,7 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     #Type D
     elif(input_list[i][0]=='ld'):
@@ -324,9 +341,11 @@ for i in range(len_list):
             else:
                 error_list.append("Error! Variable not defined!"+"-"+"Line "+i)
                 i=i+1
+                quit()
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     elif(input_list[i][0]=='st'):
         if(input_list[i][1] in reg_code):
@@ -336,9 +355,11 @@ for i in range(len_list):
             else:
                 error_list.append("Error! Variable not defined!"+"-"+"Line "+i)
                 i=i+1
+                quit()
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
             i+=1
+            quit()
 
     #Type E
     elif(input_list[i][0]=='jmp'):
@@ -380,6 +401,7 @@ for i in range(len_list):
     else:
         error_list.append("General Syntax Error.")
         i+=1
+        quit()
 if (len(error_list)>0):
     print(error_list[0])
     #print(*error_list,sep='\n')
