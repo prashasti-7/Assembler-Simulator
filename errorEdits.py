@@ -1,8 +1,12 @@
 input_list = []
 final_print = []
+var_dict={}
 i = 0
+var_count = 0
+k=0
+p=0
 
-input_list = [list(map(str, line.strip().split(','))) for line in open('Test_Case.txt')]
+# input_list = [list(map(str, line.strip().split(','))) for line in open('Test_Case.txt')]
 
 #to store value in 16- bit register
 r0 = []
@@ -23,6 +27,7 @@ var_list = []
 count = 1
 error_list=[]
 def dec_to_bi(n):
+    p=''
     st=''
     while n!=0:
         r=int(n)%2
@@ -36,7 +41,7 @@ def bi_to_dec(l):
     k = len(l)             
     sum = 0
     for i in range(k):                
-        sum = sum + l[k-i-1]*(2**i)
+        sum = sum + int(l[k-i-1])*(2**i)
     return sum
 
 op_code={'add':'10000','sub':'10001','mov':{1:'10010',2:'10011'},'ld':'10100',
@@ -50,13 +55,27 @@ reg_code={'R0':'000','R1':'001','R2':'010','R3':'011',
 
 reg_val = {'R0': r0, 'R1': r1, 'R2':r2, 'R3': r3, 'R4':r4, 'R5':r5, 'R6':r6, 'FLAGS': flags}
 
-# while(True):
-#     inp=list(map(str,input().split()))
-#     input_list.append(inp)
-#     if('hlt' in inp):
-#         break
+while(True):
+    inp=list(map(str,input().split()))
+    input_list.append(inp)
+    if('hlt' in inp):
+        break
 
 len_list = len(input_list)
+
+for p in range(len_list):
+    if(input_list[p][0]=='var'):
+        var_count+=1
+    elif(input_list[p][0] in op_code):
+        k = p
+        break
+
+for p in range(k+1, len_list):
+    if(input_list[p][0]=='var'):
+        print("Error")
+        quit()
+
+len_var_list = len_list - var_count
 
 for i in range(len_list):
     # Type A:
@@ -110,13 +129,13 @@ for i in range(len_list):
     elif(input_list[i][0]=='xor'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['xor']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-            i = i + 1
             for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
 
                 if reg_val[input_list[i][1]][i] == reg_val[input_list[i][2]][i]:
                     reg_val[input_list[i][3]][i].append(0)
                 else:
                     reg_val[input_list[i][3]][i].append(1)
+            i = i + 1
 
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
@@ -125,7 +144,6 @@ for i in range(len_list):
     elif(input_list[i][0]=='or'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['or']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-            i = i + 1
 
             for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
 
@@ -134,6 +152,7 @@ for i in range(len_list):
 
                 else:
                     reg_val[input_list[i][3]][i].append(1)
+            i = i + 1
 
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
@@ -142,7 +161,6 @@ for i in range(len_list):
     elif(input_list[i][0]=='and'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['and']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-            i+=1
 
             if len(reg_val[input_list[i][1]]) != 0:
                 reg_val[input_list[i][1]].clear()
@@ -160,6 +178,7 @@ for i in range(len_list):
                     
                 else:
                     reg_val[input_list[i][3]][i].append(0)
+            i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
             i+=1
@@ -280,7 +299,7 @@ for i in range(len_list):
     #Type D
     elif(input_list[i][0]=='ld'):
         if(input_list[i][1] in reg_code):
-            final_print.append(op_code['ld'] + reg_code[input_list[i][1]] + value)     ######doubt
+            final_print.append(op_code['ld'] + reg_code[input_list[i][1]] + var_dict[input_list[i][2]])     ######doubt
             i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
@@ -288,7 +307,7 @@ for i in range(len_list):
 
     elif(input_list[i][0]=='st'):
         if(input_list[i][1] in reg_code):
-            final_print.append(op_code['st'] + reg_code[input_list[i][1]] + value)     ######doubt
+            final_print.append(op_code['st'] + reg_code[input_list[i][1]] + var_dict[input_list[i][2]])     ######doubt
             i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+count)
@@ -319,7 +338,17 @@ for i in range(len_list):
             break
 
     elif(input_list[i][0]=='var'):
-        var_list. append(input_list[i][0])
+        # q=0
+        var_list. append(input_list[i][1])
+        q = var_list.index(input_list[i][1])
+        print(len_list)
+        value = len_var_list + q
+        value = dec_to_bi(value)
+        value  = str(value)
+        length = len(value)
+        t = '0'*(8-length)
+        var_dict.update({input_list[i][1]:t+value})
+
     
     else:
         error_list.append("Incorrect instruction.")
