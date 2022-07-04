@@ -261,6 +261,8 @@ for i in range(len_list):
     elif(input_list[i][0]=='div'):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code):
             final_print.append(op_code['div']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
+            value1 = bi_to_dec(reg_val[input_list[i][1]])
+            value2 = bi_to_dec(reg_val[input_list[i][2]])
             quotient=value1/value2
             rem=value1%value2
             quotient=dec_to_bi(quotient)
