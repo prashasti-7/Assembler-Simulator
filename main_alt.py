@@ -1,4 +1,7 @@
 #import sys
+from traceback import print_list
+
+
 input_list = []
 final_print = []
 var_dict = {}
@@ -7,6 +10,7 @@ i = 0
 var_count = 0
 k=0
 p=0
+not_final = []
 
 l=[]
 final_print=[]
@@ -322,7 +326,7 @@ for i in range(len_list):
 
     #Type E
     elif(input_list[i][0]=='jmp' or input_list[i][0]=='jlt' or input_list[i][0]=='jgt' or input_list[i][0]=='je'):
-        if(len_inst == 3):
+        if(len_inst == 2):
             if(input_list[i][1] in label_dict):
                 final_print.append(op_code[input_list[i][0]] + '000' + label_dict[input_list[i][1]])    
                 i+=1
@@ -365,68 +369,67 @@ for i in range(len_list):
             label_dict.update({label_inst: t+value})
 
             if(input_list[i][1] in op_code):
-                if(input_list[i][1]=='add'):
+                if(input_list[i][1]=='add' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        final_print.append(op_code['add']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        not_final.append(op_code['add']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         # error handling for wrong input
                         quit()
                         
-                elif(input_list[i][1]=='sub'):
+                elif(input_list[i][1]=='sub' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        subInst()
+                        not_final.append(op_code['sub']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
 
-                elif(input_list[i][1]=='mul'):
+                elif(input_list[i][1]=='mul' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        final_print.append(op_code['mul']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        not_final.append(op_code['mul']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
 
-                elif(input_list[i][1]=='xor'):
+                elif(input_list[i][1]=='xor' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        xorInst()
-
+                        not_final.append(op_code['xor']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         i+=1
                         quit()
 
-                elif(input_list[i][1]=='or'):
+                elif(input_list[i][1]=='or' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        orInst()
+                        not_final.append(op_code['or']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
 
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
 
-                elif(input_list[i][1]=='and'):
+                elif(input_list[i][1]=='and' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        andInst()
+                        not_final.append(op_code['and']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect." + "-" + "Line " + str(i))
                         quit()
 
                 # Type B:
-                elif(input_list[i][1]=='mov'):
+                elif(input_list[i][1]=='mov' and len_inst==4):
                     if(input_list[i][2] in reg_code):
                         movInst()
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
                 
-                elif(input_list[i][0]=='ls'):
+                elif(input_list[i][0]=='ls' and len_inst==4):
                     if(input_list[i][2] in reg_code):
                         lsInst()
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
 
-                elif(input_list[i][0]=='rs'):
+                elif(input_list[i][0]=='rs' and len_inst==4):
                     if(input_list[i][2] in reg_code):
                         rsInst()
                     else:
@@ -434,26 +437,30 @@ for i in range(len_list):
                         quit()
 
                 # Type C:
-                elif(input_list[i][1]=='div'):
+                elif(input_list[i][1]=='div' and len_inst==4):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code):
                         divInst()
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))         
                         quit()
 
-                elif(input_list[i][0]=='not'):
+                elif(input_list[i][0]=='not' and len_inst==4):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code):
                         final_print.append(op_code['not']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
 
-                elif(input_list[i][0]=='cmp'):
+                elif(input_list[i][0]=='cmp' and len_inst==4):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code):
                         cmpInst()
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
+
+                else:
+                    print("Synatx Error")
+                    quit()
             else:
                 print("Illegal use of label. Line "+str(i))
                 quit()
