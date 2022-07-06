@@ -446,7 +446,7 @@ for i in range(len_list):
 
                 elif(input_list[i][0]=='not' and len_inst==4):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code):
-                        final_print.append(op_code['not']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
+                        not_final.append(op_code['not']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         quit()
