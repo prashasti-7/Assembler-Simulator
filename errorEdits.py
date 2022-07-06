@@ -1,4 +1,4 @@
-import sys
+#import sys
 input_list = []
 final_print = []
 var_dict = {}
@@ -39,18 +39,18 @@ op_code={'add':'10000','sub':'10001','mov':{1:'10010',2:'10011'},'ld':'10100',
 reg_code={'R0':'000','R1':'001','R2':'010','R3':'011',
 'R4':'100','R5':'101','R6':'110'}    
 
-# while(True):
-#     inp=list(map(str,input().split()))
-#     input_list.append(inp)
-#     if('hlt' in inp):
-#         break
-
-
-for line in sys.stdin:
+while(True):
     inp=list(map(str,input().split()))
     input_list.append(inp)
     if('hlt' in inp):
         break
+
+
+# for line in sys.stdin:
+#     inp=list(map(str,input().split()))
+#     input_list.append(inp)
+#     if('hlt' in inp):
+#         break
 
 len_list = len(input_list)
 
@@ -451,20 +451,20 @@ for i in range(len_list):
         error_list.append("General Syntax Error.")
         i+=1
 
-# if (len(error_list)>0):
-#     print(error_list[0])
-    #print(*error_list,sep='\n')
-
-out=sys.stdout
 if (len(error_list)>0):
-    for b in error_list:
-        out.write('\n'+b)
-else:
-    for l in final_print:
-        out.write('\n'+l)
-# output = open('output.txt', 'w')
-# for k in final_print:
-#     output.writelines(k)
+    print(error_list[0])
+    print(*error_list,sep='\n')
+
+# out=sys.stdout
+# if (len(error_list)>0):
+#     for b in error_list:
+#         out.write('\n'+b)
+# else:
+#     for l in final_print:
+#         out.write('\n'+l)
+output = open('output.txt', 'w')
+for k in final_print:
+    output.writelines(k)
 
 print(*final_print,sep='\n')
 print(*var_list)
