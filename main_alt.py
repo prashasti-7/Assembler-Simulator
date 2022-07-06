@@ -315,25 +315,6 @@ for i in range(len_list):
         if(input_list[i][1] in label_dict):
             final_print.append(op_code[input_list[i][0]] + '000' + label_dict[input_list[i][1]])    
             i=i+1
-    # elif(input_list[i][0]=='jmp'):
-    #     if(input_list[i][1] in label_dict):
-    #         final_print.append(op_code['jmp'] + '000' + label_dict[input_list[i][1]])     ######doubt
-    #         i+=1
-
-    # elif(input_list[i][0]=='jlt'):
-    #     if(input_list[i][1] in label_dict):
-    #         final_print.append(op_code['jlt'] + '000' + label_dict[input_list[i][1]])     ######doubt
-    #         i+=1    
-
-    # elif(input_list[i][0]=='jgt'):
-    #     if(input_list[i][1] in label_dict):
-    #         final_print.append(op_code['jgt'] + '000' +  label_dict[input_list[i][1]])     ######doubt      
-    #         i+=1
-
-    # elif(input_list[i][0]=='je'):
-    #     if(input_list[i][1] in label_dict):
-    #         final_print.append(op_code['je'] + '000' + label_dict[input_list[i][1]])     ######doubt   
-    #         i=i+1
 
     #Type F
     elif(input_list[i][0]=='hlt'):
@@ -362,7 +343,7 @@ for i in range(len_list):
             quit()
 
         else:
-            value = dec_to_bi(i-2)
+            value = dec_to_bi(i-len(var_list))
             value  = str(value)
             length = len(value)
             t = '0'*(8-length)
