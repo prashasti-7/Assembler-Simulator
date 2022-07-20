@@ -425,3 +425,38 @@ if (len(error_list)>0):
         print(error_list[0],sep = "\n")
         exit()
 print(*final_print,sep = "\n")
+
+
+input_sim = []
+len_sim = len(input_sim)
+pc_count = 0
+prog_count = [00000000]
+
+#to store value in 16- bit register
+r0 = []
+r1 = []
+r2 = []
+r3 = []
+r4 = []
+r5 = []
+r6 = []
+
+flags = []
+for i in range(16):
+    flags.append(0)
+
+reg_val = {'R0': r0, 'R1': r1, 'R2':r2, 'R3': r3, 'R4':r4, 'R5':r5, 'R6':r6, 'FLAGS': flags}
+
+A_sim = {'10000' : 'add', '10001' : 'sub', '10110': 'mul', '11010': 'xor', '11011': 'or', '11100': 'and'}
+
+B_sim = {'10010' : 'mov', '11000': 'rs', '11001': 'ls'}
+
+C_sim = {'10011': 'mov', '10111': 'div', '11101': 'not', '11110': 'cmp'}
+
+D_sim = {'10100': 'ld', '10101': 'st'}
+
+E_sim = {'11111': 'jmp', '01100': 'jlt', '01101': 'jgt', '01111': 'je'}
+
+for i in range(len_sim):
+    if(input_sim[i][0] == 'hlt'):
+        h = 1
