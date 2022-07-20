@@ -64,7 +64,7 @@ for i in range(len_sim):
             sum = value1 + value2
             reg_value[a3] = dec_to_bi(sum)
             if (value1+value2>255):
-                flags[12]==1
+                flags[12] == 1
         elif(A_sim[op_sim] == 'sub'):
             value1 = bi_to_dec(reg_value[a1])
             value2 = bi_to_dec(reg_value[a2])
@@ -101,13 +101,23 @@ for i in range(len_sim):
                 reg_value[a3] = str(ans)
 
     elif(op_sim in B_sim):
-        print()
+        b1 = input_sim[i][5:8]
+        if(B_sim[op_sim] == 'mov'):
+                reg_value[b1] = '00000000' + input_sim[i][8:]
+
+        elif(B_sim[op_sim] == 'rs'):    #doubt
+            print()
+        elif(B_sim[op_sim] == 'ls'):    #doubt
+            print()
 
     elif(op_sim in C_sim):
         print()
 
     elif(op_sim in D_sim):
         print()
+        # d1 = input_sim[i][5:8]
+        # if(B_sim[op_sim] == 'ld'):
+        #         reg_value[b1] = '00000000' + input_sim[i][8:]
 
     elif(op_sim in E_sim):
         print()
