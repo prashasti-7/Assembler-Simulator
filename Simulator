@@ -85,26 +85,20 @@ for i in range(len_sim):
         elif(A_sim[op_sim] == 'xor'):
             for i in reg_value[a1] and reg_value[a2]:
 
-                if reg_val[input_list[i][1]][i] == reg_val[input_list[i][2]][i]:
-                    reg_val[input_list[i][3]][i].append(0)
-                else:
-                    reg_val[input_list[i][3]][i].append(1)
+                ans = int(reg_value[a1]) ^ int(reg_value[a2])
+                reg_value[a3] = str(ans)
+
         elif(A_sim[op_sim] == 'or'):
             for i in reg_value[a1] and reg_value[a2]:
 
-                if reg_val[input_list[i][1]][i] == 0 and reg_val[input_list[i][2]][i] == 0:
-                    reg_val[input_list[i][3]][i].append(0)
+                ans = int(reg_value[a1]) | int(reg_value[a2])
+                reg_value[a3] = str(ans)
 
-                else:
-                    reg_val[input_list[i][3]][i].append(1)
         elif(A_sim[op_sim] == 'and'):
             for i in reg_value[a1] and reg_value[a2]:
 
-                if reg_val[input_list[i][1]][i] == 1 and reg_val[input_list[i][2]][i] == 1:
-                    reg_val[input_list[i][3]][i].append(1)
-                    
-                else:
-                    reg_val[input_list[i][3]][i].append(0)
+                ans = int(reg_value[a1]) & int(reg_value[a2])
+                reg_value[a3] = str(ans)
 
     elif(op_sim in B_sim):
         print()
