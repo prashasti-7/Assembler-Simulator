@@ -1,0 +1,122 @@
+def dec_to_bi(n):
+    p=''
+    st=''
+    while n!=0:
+        r=int(n)%2
+        st=st+str(r)
+        n=int(n)//2
+        p=st[::-1]
+    return(p)
+
+l=[]
+def bi_to_dec(l):           
+    k = len(l)             
+    sum = 0
+    for i in range(k):                
+        sum = sum + int(l[k-i-1])*(2**i)
+    return sum
+
+input_sim = []
+len_sim = len(input_sim)
+pc_count = 0
+prog_count = [00000000]
+
+input_list =[]
+
+#to store value in 16- bit register
+r0 = ''
+r1 = ''
+r2 = ''
+r3 = ''
+r4 = ''
+r5 = ''
+r6 = ''
+
+flags = []
+for i in range(16):
+    flags.append(0)
+
+reg_val = {'R0': r0, 'R1': r1, 'R2':r2, 'R3': r3, 'R4':r4, 'R5':r5, 'R6':r6, 'FLAGS': flags}
+
+A_sim = {'10000' : 'add', '10001' : 'sub', '10110': 'mul', '11010': 'xor', '11011': 'or', '11100': 'and'}
+
+B_sim = {'10010' : 'mov', '11000': 'rs', '11001': 'ls'}
+
+C_sim = {'10011': 'mov', '10111': 'div', '11101': 'not', '11110': 'cmp'}
+
+D_sim = {'10100': 'ld', '10101': 'st'}
+
+E_sim = {'11111': 'jmp', '01100': 'jlt', '01101': 'jgt', '01111': 'je'}
+
+reg_value={'000': 'r0','001': 'r1','010': 'r2','011': 'r3','100': 'r4','101': 'r5','110': 'r6'}
+
+for i in range(len_sim):
+    if(input_sim[i][0] == 'hlt'):
+        h = 1
+
+for i in range(len_sim):
+    op_sim = input_sim[i][:5]
+    if(op_sim in A_sim):
+        a1 = input_sim[i][7:10]
+        a2 = input_sim[i][10:13]
+        a3 = input_sim[i][13:16]
+        if(A_sim[op_sim] == 'and'):
+            value1 = bi_to_dec(reg_value[a1])
+            value2 = bi_to_dec(reg_value[a2])
+            sum=value1+value2
+            sum=dec_to_bi(sum)
+            reg_val[input_list[i][0]]=sum
+            if (value1+value2>255):
+                flags[12]==1
+        elif(A_sim[op_sim] == 'sub'):
+            value1 = bi_to_dec(reg_value[a1])
+            value2 = bi_to_dec(reg_value[a2])
+            diff=value1-value2
+            diff=dec_to_bi(diff)
+            reg_val[input_list[i][0]]=diff
+            if (value1-value2<0):
+                flags[12]==1
+                reg_val[input_list[i][0]]='00000000'
+        elif(A_sim[op_sim] == 'mul'):
+            value1 = bi_to_dec(reg_value[a1])
+            value2 = bi_to_dec(reg_value[a2])
+            prod=value1*value2
+            prod=dec_to_bi(prod)
+            reg_val[input_list[i][0]]=prod
+            if (value1*value2>255):
+                flags[12]==1
+        elif(A_sim[op_sim] == 'xor'):
+            for i in reg_value[a1] and reg_value[a2]:
+
+                if reg_val[input_list[i][1]][i] == reg_val[input_list[i][2]][i]:
+                    reg_val[input_list[i][3]][i].append(0)
+                else:
+                    reg_val[input_list[i][3]][i].append(1)
+        elif(A_sim[op_sim] == 'or'):
+            for i in reg_value[a1] and reg_value[a2]:
+
+                if reg_val[input_list[i][1]][i] == 0 and reg_val[input_list[i][2]][i] == 0:
+                    reg_val[input_list[i][3]][i].append(0)
+
+                else:
+                    reg_val[input_list[i][3]][i].append(1)
+        elif(A_sim[op_sim] == 'and'):
+            for i in reg_value[a1] and reg_value[a2]:
+
+                if reg_val[input_list[i][1]][i] == 1 and reg_val[input_list[i][2]][i] == 1:
+                    reg_val[input_list[i][3]][i].append(1)
+                    
+                else:
+                    reg_val[input_list[i][3]][i].append(0)
+
+    elif(op_sim in B_sim):
+        print()
+
+    elif(op_sim in C_sim):
+        print()
+
+    elif(op_sim in D_sim):
+        print()
+
+    elif(op_sim in E_sim):
+        print()
