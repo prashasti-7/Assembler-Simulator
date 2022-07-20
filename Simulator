@@ -36,8 +36,6 @@ flags = []
 for i in range(16):
     flags.append(0)
 
-reg_val = {'R0': r0, 'R1': r1, 'R2':r2, 'R3': r3, 'R4':r4, 'R5':r5, 'R6':r6, 'FLAGS': flags}
-
 A_sim = {'10000' : 'add', '10001' : 'sub', '10110': 'mul', '11010': 'xor', '11011': 'or', '11100': 'and'}
 
 B_sim = {'10010' : 'mov', '11000': 'rs', '11001': 'ls'}
@@ -48,7 +46,7 @@ D_sim = {'10100': 'ld', '10101': 'st'}
 
 E_sim = {'11111': 'jmp', '01100': 'jlt', '01101': 'jgt', '01111': 'je'}
 
-reg_value={'000': 'r0','001': 'r1','010': 'r2','011': 'r3','100': 'r4','101': 'r5','110': 'r6'}
+reg_value={'000': r0,'001': r1,'010': r2,'011': r3,'100': r4,'101': r5,'110': r6}
 
 for i in range(len_sim):
     if(input_sim[i][0] == 'hlt'):
@@ -63,26 +61,25 @@ for i in range(len_sim):
         if(A_sim[op_sim] == 'and'):
             value1 = bi_to_dec(reg_value[a1])
             value2 = bi_to_dec(reg_value[a2])
-            sum=value1+value2
-            sum=dec_to_bi(sum)
-            reg_val[input_list[i][0]]=sum
+            sum = value1 + value2
+            reg_value[a3] = dec_to_bi(sum)
             if (value1+value2>255):
                 flags[12]==1
         elif(A_sim[op_sim] == 'sub'):
             value1 = bi_to_dec(reg_value[a1])
             value2 = bi_to_dec(reg_value[a2])
-            diff=value1-value2
-            diff=dec_to_bi(diff)
-            reg_val[input_list[i][0]]=diff
+            diff = value1-value2
+            reg_value[a3] = dec_to_bi(diff)
+            reg_value[input_list[i][0]]=diff
             if (value1-value2<0):
                 flags[12]==1
-                reg_val[input_list[i][0]]='00000000'
+                reg_value[a3] ='0000000000000000'
         elif(A_sim[op_sim] == 'mul'):
             value1 = bi_to_dec(reg_value[a1])
             value2 = bi_to_dec(reg_value[a2])
             prod=value1*value2
-            prod=dec_to_bi(prod)
-            reg_val[input_list[i][0]]=prod
+            prod = dec_to_bi(prod)
+            reg_value[a3] = prod
             if (value1*value2>255):
                 flags[12]==1
         elif(A_sim[op_sim] == 'xor'):
