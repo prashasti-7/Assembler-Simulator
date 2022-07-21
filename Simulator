@@ -136,8 +136,10 @@ for i in range(len_sim):
             r1=str(dec_to_bi(rem))
 
         elif(C_sim[op_sim]=='not'):                     ###doubt
-                ans=~int(reg_value[c1]) & 255
-                reg_value[c2] = str(ans)
+                value1=bi_to_dec(int(reg_value[c1]))
+                ans=~value1 & 255
+                ans2=str(dec_to_bi(ans))
+                reg_value[c2] = str(ans2)
 
         elif(C_sim[op_sim]=='cmp'):
             value1 = bi_to_dec(int(reg_value[c1]))
