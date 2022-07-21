@@ -8,13 +8,23 @@ def dec_to_bi(n):
         p=st[::-1]
     return(p)
 
-l=[]
-def bi_to_dec(l):           
-    k = len(l)             
-    sum = 0
-    for i in range(k):                
-        sum = sum + int(l[k-i-1])*(2**i)
-    return sum
+def bi_to_dec(n):
+    i=0
+    deci=0
+    while n!=0:
+        p=int(n)%10
+        deci=deci+p*2**i
+        i=i+1
+        n=int(n)//10
+    return deci
+
+# l=[]
+# def bi_to_dec(l):           
+#     k = len(l)             
+#     sum = 0
+#     for i in range(k):                
+#         sum = sum + int(l[k-i-1])*(2**i)
+#     return sum
 
 input_sim = []
 len_sim = len(input_sim)
@@ -59,15 +69,15 @@ for i in range(len_sim):
         a2 = input_sim[i][10:13]
         a3 = input_sim[i][13:16]
         if(A_sim[op_sim] == 'add'):
-            value1 = bi_to_dec(reg_value[a1])
-            value2 = bi_to_dec(reg_value[a2])
+            value1 = bi_to_dec(int(reg_value[a1]))
+            value2 = bi_to_dec(int(reg_value[a2]))
             sum = value1 + value2
             reg_value[a3] = dec_to_bi(sum)
             if (value1+value2>255):
                 flags[12] == 1
         elif(A_sim[op_sim] == 'sub'):
-            value1 = bi_to_dec(reg_value[a1])
-            value2 = bi_to_dec(reg_value[a2])
+            value1 = bi_to_dec(int(reg_value[a1]))
+            value2 = bi_to_dec(int(reg_value[a2]))
             diff = value1-value2
             reg_value[a3] = dec_to_bi(diff)
             reg_value[input_list[i][0]]=diff
@@ -75,8 +85,8 @@ for i in range(len_sim):
                 flags[12]==1
                 reg_value[a3] ='0000000000000000'
         elif(A_sim[op_sim] == 'mul'):
-            value1 = bi_to_dec(reg_value[a1])
-            value2 = bi_to_dec(reg_value[a2])
+            value1 = bi_to_dec(int(reg_value[a1]))
+            value2 = bi_to_dec(int(reg_value[a2]))
             prod=value1*value2
             prod = dec_to_bi(prod)
             reg_value[a3] = prod
@@ -104,11 +114,11 @@ for i in range(len_sim):
             reg_value[b1] = '00000000' + input_sim[i][8:]
 
         elif(B_sim[op_sim] == 'rs'):    
-            ans = bi_to_dec(reg_value[b1]) >> bi_to_dec(input_sim[i][8:])
+            ans = bi_to_dec(int(reg_value[b1])) >> bi_to_dec(int(input_sim[i][8:]))
             reg_value[b1] = dec_to_bi(ans)
 
         elif(B_sim[op_sim] == 'ls'):    
-            ans = bi_to_dec(reg_value[b1]) << bi_to_dec(input_sim[i][8:])
+            ans = bi_to_dec(int(reg_value[b1])) << bi_to_dec(int(input_sim[i][8:]))
             reg_value[b1] = dec_to_bi(ans)
 
     elif(op_sim in C_sim):
@@ -118,8 +128,8 @@ for i in range(len_sim):
             reg_value[c2]=reg_value[c1]
 
         elif(C_sim[op_sim]=='div'):
-            value1 = bi_to_dec(reg_value[c1])
-            value2 = bi_to_dec(reg_value[c2])
+            value1 = bi_to_dec(int(reg_value[c1]))
+            value2 = bi_to_dec(int(reg_value[c2]))
             quotient=value1/value2
             rem=value1%value2
             r0=str(dec_to_bi(quotient))
@@ -130,8 +140,8 @@ for i in range(len_sim):
                 reg_value[c2] = str(ans)
 
         elif(C_sim[op_sim]=='cmp'):
-            value1 = bi_to_dec(reg_value[c1])
-            value2 = bi_to_dec(reg_value[c2])
+            value1 = bi_to_dec(int(reg_value[c1]))
+            value2 = bi_to_dec(int(reg_value[c2]))
             if(value1>value2):
                 flags[14]==1
             elif(value1<value2):
