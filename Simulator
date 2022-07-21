@@ -8,6 +8,19 @@ def dec_to_bi(n):
         p=st[::-1]
     return(p)
 
+def dec_to_bi_8(n):
+    p=''
+    st=''
+    final_8 = ''
+    while n!=0:
+        r=int(n)%2
+        st=st+str(r)
+        n=int(n)//2
+        p=st[::-1]
+    len_ans = len(p)
+    final_8 = '0'*(8-len_ans) + p
+    return(final_8)
+
 def bi_to_dec(n):
     i=0
     deci=0
@@ -30,6 +43,7 @@ input_sim = []
 len_sim = len(input_sim)
 pc_count = 0
 prog_count = [00000000]
+final_sim = []
 
 input_list =[]
 
@@ -64,10 +78,13 @@ for i in range(len_sim):
 
 for i in range(len_sim):
     op_sim = input_sim[i][:5]
+
+    #Type A
     if(op_sim in A_sim):
         a1 = input_sim[i][7:10]
         a2 = input_sim[i][10:13]
         a3 = input_sim[i][13:16]
+
         if(A_sim[op_sim] == 'add'):
             value1 = bi_to_dec(int(reg_value[a1]))
             value2 = bi_to_dec(int(reg_value[a2]))
@@ -75,6 +92,7 @@ for i in range(len_sim):
             reg_value[a3] = dec_to_bi(sum)
             if (value1+value2>255):
                 flags[12] == 1
+
         elif(A_sim[op_sim] == 'sub'):
             value1 = bi_to_dec(int(reg_value[a1]))
             value2 = bi_to_dec(int(reg_value[a2]))
@@ -84,6 +102,7 @@ for i in range(len_sim):
             if (value1-value2<0):
                 flags[12]==1
                 reg_value[a3] ='0000000000000000'
+
         elif(A_sim[op_sim] == 'mul'):
             value1 = bi_to_dec(int(reg_value[a1]))
             value2 = bi_to_dec(int(reg_value[a2]))
@@ -92,6 +111,7 @@ for i in range(len_sim):
             reg_value[a3] = prod
             if (value1*value2>255):
                 flags[12]==1
+
         elif(A_sim[op_sim] == 'xor'):
 
             ans = int(reg_value[a1]) ^ int(reg_value[a2])
@@ -107,6 +127,7 @@ for i in range(len_sim):
             ans = int(reg_value[a1]) & int(reg_value[a2])
             reg_value[a3] = str(ans)
 
+    #Type B
     elif(op_sim in B_sim):
         b1 = input_sim[i][5:8]
         if(B_sim[op_sim] == 'mov'):
@@ -120,12 +141,14 @@ for i in range(len_sim):
         elif(B_sim[op_sim] == 'ls'):    
             ans = bi_to_dec(int(reg_value[b1])) << bi_to_dec(int(input_sim[i][8:]))
             reg_value[b1] = dec_to_bi(ans)
-
+    
+    #Type C
     elif(op_sim in C_sim):
         c1=input_sim[i][10:13]
         c2=input_sim[i][13:16]
+
         if(C_sim[op_sim] == 'mov'):
-            reg_value[c2]=reg_value[c1]
+            reg_value[c2] = reg_value[c1]
 
         elif(C_sim[op_sim]=='div'):
             value1 = bi_to_dec(int(reg_value[c1]))
@@ -151,12 +174,14 @@ for i in range(len_sim):
             elif(value1==value2):
                 flags[15]==1
 
+    #Type D
     elif(op_sim in D_sim):
         print()
         # d1 = input_sim[i][5:8]
         # if(B_sim[op_sim] == 'ld'):
         #         reg_value[b1] = '00000000' + input_sim[i][8:]
 
+    #Type E
     elif(op_sim in E_sim):                          ###doubt
         mem_add=input_sim[i][8:16]
         if(E_sim[op_sim]=='jmp'):
@@ -171,3 +196,6 @@ for i in range(len_sim):
         elif(E_sim[op_sim]=='je' & flags[15]==1):
             print()
             #jump to memory address
+
+    res = dec_to_bi_8(i) + ' ' + r0 + ' ' + r1 + ' ' + r2 + ' ' + r3 + ' ' + r4 + ' ' + r5 + ' ' + r6 + ' ' + flags
+    final_sim.append(res)
