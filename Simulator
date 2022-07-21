@@ -83,22 +83,19 @@ for i in range(len_sim):
             if (value1*value2>255):
                 flags[12]==1
         elif(A_sim[op_sim] == 'xor'):
-            for i in reg_value[a1] and reg_value[a2]:
 
-                ans = int(reg_value[a1]) ^ int(reg_value[a2])
-                reg_value[a3] = str(ans)
+            ans = int(reg_value[a1]) ^ int(reg_value[a2])
+            reg_value[a3] = str(ans)
 
         elif(A_sim[op_sim] == 'or'):
-            for i in reg_value[a1] and reg_value[a2]:
 
-                ans = int(reg_value[a1]) | int(reg_value[a2])
-                reg_value[a3] = str(ans)
+            ans = int(reg_value[a1]) | int(reg_value[a2])
+            reg_value[a3] = str(ans)
 
         elif(A_sim[op_sim] == 'and'):
-            for i in reg_value[a1] and reg_value[a2]:
 
-                ans = int(reg_value[a1]) & int(reg_value[a2])
-                reg_value[a3] = str(ans)
+            ans = int(reg_value[a1]) & int(reg_value[a2])
+            reg_value[a3] = str(ans)
 
     elif(op_sim in B_sim):
         b1 = input_sim[i][5:8]
@@ -121,3 +118,4 @@ for i in range(len_sim):
 
     elif(op_sim in E_sim):
         print()
+
