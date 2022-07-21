@@ -1,4 +1,5 @@
 import sys
+from sys import stdin 
 
 input_list = []
 final_print = []
@@ -43,19 +44,14 @@ op_code={'add':'10000','sub':'10001','mov':{1:'10010',2:'10011'},'ld':'10100',
 reg_code={'R0':'000','R1':'001','R2':'010','R3':'011',
 'R4':'100','R5':'101','R6':'110'}    
 
-# while(True):
-#     inp=list(map(str,input().split()))
-#     input_list.append(inp)
-#     if('hlt' in inp):
-#         break
-
-inp = []
-with open(sys.argv[1], 'r') as f:
-    for lines in f.readlines():
-        line = list(map(str,lines.split()))
-        lines.rstrip('\n')
-        elements = lines.split(' ')
-        input_list.append(line)
+file = sys.stdin
+for line in file:
+    if '\n' == line:
+        break
+    list_instr = []
+    for i in line.split():
+        list_instr.append(i)
+    input_list.append(list_instr)
 
 len_list = len(input_list)
 
@@ -68,13 +64,13 @@ for p in range(len_list):
 
 for p in range(k+1, len_list):
     if(input_list[p][0]=='var'):
-        print("Variable not declared at the beginning")
+        print("Variable not declared at the beginning"+str((len(var_list))+p))
         quit()
 
 s = 0
 for h in range(len_list):
     if(input_list[h][0] == 'hlt'):
-        s = 1
+        s+=1
 
 if(input_list[len_list-1][0] != 'hlt'):
     print("Halt instruction not at the end")
@@ -82,6 +78,10 @@ if(input_list[len_list-1][0] != 'hlt'):
 
 if (s == 0):
     print("Halt instruction is missing")
+    quit()
+
+if (s>1):
+    print("Halt instruction used multiple times")
     quit()
 
 len_var_list = len_list - var_count
@@ -165,20 +165,8 @@ def divInst():
 def cmpInst():
     final_print.append(op_code['cmp']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])  
 
-# input_list = [list(map(str, line.strip().split(','))) for line in open('Test_Case.txt')]
-
 for i in range(len_list):
     len_inst = len(input_list[i])
-    # Type A:
-    # if(input_list[i][0]=='add' or input_list[i][0]=='sub' or input_list[i][0]=='mul' or input_list[i][0]=='xor' or input_list[i][0]=='or' or input_list[i][0]=='and' and len_inst == 4):
-    #     if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code and len_inst==4):
-    #         final_print.append(op_code[input_list[i][0]]+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
-    #         i+=1
-    #     else:
-    #         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+i)
-    #         i+=1
-    #         quit()                        # error handling for wrong input
-
     if(input_list[i][0]=='add' and len_inst == 4):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             addInst()
@@ -186,7 +174,6 @@ for i in range(len_list):
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+ str(i))
             i+=1
-            # error handling for wrong input
             
     elif(input_list[i][0]=='sub' and len_inst == 4):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
@@ -234,10 +221,9 @@ for i in range(len_list):
     elif(input_list[i][0]=='mov' and len_inst == 3):
         if(input_list[i][1] in reg_code):
             movInst()
-            i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
-            i+=1
+        i+=1
     
     elif(input_list[i][0]=='ls' and len_inst == 3):
         if(input_list[i][1] in reg_code):
@@ -312,15 +298,6 @@ for i in range(len_list):
                 final_print.append(op_code[input_list[i][0]] + '000' + label_dict[input_list[i][1]])    
                 i+=1  
             else:
-                # for g in range(i+1,len_list):
-                #     input_list[g][0]= input_list[g][0][:-1]
-                #     if(input_list[g][0] == input_list[i][1]):
-                #         value = dec_to_bi(g)
-                #         value  = str(value)
-                #         length = len(value)
-                #         t = '0'*(8-length)
-                #         final_print.append(op_code[input_list[i][0]] + '000' + t + value)   
-                #         i=i+1 
                 error_list.append("Error! Format incorrect!"+"-"+"Line "+str(i))
                 i+=1
 
@@ -358,40 +335,40 @@ for i in range(len_list):
             if(input_list[i][1] in op_code):
                 if(input_list[i][1]=='add' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        not_final.append(op_code['add']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        final_print.append(op_code['add']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         # error handling for wrong input
                         
                 elif(input_list[i][1]=='sub' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        not_final.append(op_code['sub']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        final_print.append(op_code['sub']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
                 elif(input_list[i][1]=='mul' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        not_final.append(op_code['mul']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        final_print.append(op_code['mul']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
                 elif(input_list[i][1]=='xor' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        not_final.append(op_code['xor']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        final_print.append(op_code['xor']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         i+=1
 
                 elif(input_list[i][1]=='or' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        not_final.append(op_code['or']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        final_print.append(op_code['or']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
 
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
                 elif(input_list[i][1]=='and' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
-                        not_final.append(op_code['and']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                        final_print.append(op_code['and']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect." + "-" + "Line " + str(i))
 
@@ -402,13 +379,13 @@ for i in range(len_list):
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                 
-                elif(input_list[i][0]=='ls' and len_inst==4):
+                elif(input_list[i][1]=='ls' and len_inst==4):
                     if(input_list[i][2] in reg_code):
                         lsInst()
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
-                elif(input_list[i][0]=='rs' and len_inst==4):
+                elif(input_list[i][1]=='rs' and len_inst==4):
                     if(input_list[i][2] in reg_code):
                         rsInst()
                     else:
@@ -421,13 +398,13 @@ for i in range(len_list):
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))         
 
-                elif(input_list[i][0]=='not' and len_inst==4):
+                elif(input_list[i][1]=='not' and len_inst==4):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code):
                         not_final.append(op_code['not']+'00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
-                elif(input_list[i][0]=='cmp' and len_inst==4):
+                elif(input_list[i][1]=='cmp' and len_inst==4):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code):
                         cmpInst()
                     else:
@@ -443,12 +420,8 @@ for i in range(len_list):
         error_list.append("General Syntax Error. Line "+str(i))
         i+=1
 
-r = 0
-out=sys.stdout
 if (len(error_list)>0):
     for r in range(len(error_list)):
-        out.write(error_list[r]+"\n")
-        sys.exit()
-else:
-    for r in range(len(final_print)):
-        out.write(final_print[r]+"\n")
+        print(error_list[0],sep = "\n")
+        exit()
+print(*final_print,sep = "\n")
