@@ -47,6 +47,12 @@ final_sim = []
 
 input_list =[]
 
+mem_dump = []
+
+mem_dump.copy(input_list)
+for l in range(256-input_list):
+    mem_dump.append('0000000000000000')
+
 #to store value in 16- bit register
 r0 = '0000000000000000'
 r1 = '0000000000000000'
@@ -154,36 +160,41 @@ for i in range(len_sim):
             value1 = bi_to_dec(int(reg_value[c1]))
             value2 = bi_to_dec(int(reg_value[c2]))
             quotient=value1/value2
-            rem=value1%value2
-            r0=str(dec_to_bi(quotient))
-            r1=str(dec_to_bi(rem))
+            rem = value1%value2
+            r0 = str(dec_to_bi(quotient))
+            r1 = str(dec_to_bi(rem))
 
         elif(C_sim[op_sim]=='not'):                     ###doubt
                 value1=bi_to_dec(int(reg_value[c1]))
-                ans=~value1 & 255
-                ans2=str(dec_to_bi(ans))
+                ans =~value1 & 255
+                ans2 = str(dec_to_bi(ans))
                 reg_value[c2] = str(ans2)
 
         elif(C_sim[op_sim]=='cmp'):
             value1 = bi_to_dec(int(reg_value[c1]))
             value2 = bi_to_dec(int(reg_value[c2]))
             if(value1>value2):
-                flags[14]==1
+                flags[14] == 1
             elif(value1<value2):
-                flags[13]==1
+                flags[13] == 1
             elif(value1==value2):
-                flags[15]==1
+                flags[15] == 1
 
     #Type D
     elif(op_sim in D_sim):
-        print()
-        # d1 = input_sim[i][5:8]
-        # if(B_sim[op_sim] == 'ld'):
-        #         reg_value[b1] = '00000000' + input_sim[i][8:]
+        mem_add = input_sim[i][8:16]
+        x = bi_to_dec(int(mem_add))
+        d1 = input_sim[i][5:8]
+        if(B_sim[op_sim] == 'ld'):    #loads data of reg in mem dump
+            mem_dump[x] == reg_value[d1]
+
+        elif(B_sim[op_sim] == 'st'):  #loads data of mem dump in reg
+            reg_value[d1] == mem_dump[x]
 
     #Type E
     elif(op_sim in E_sim):                          ###doubt
-        mem_add=input_sim[i][8:16]
+        mem_add = input_sim[i][8:16]
+        x = bi_to_dec(int(mem_add))
         if(E_sim[op_sim]=='jmp'):
             print()
             #jump to memory address
@@ -192,7 +203,7 @@ for i in range(len_sim):
             #jump to memory address
         elif(E_sim[op_sim]=='jgt' & flags[14]==1):
             print()
-            #jump to memory adress 
+            #jump to memory address 
         elif(E_sim[op_sim]=='je' & flags[15]==1):
             print()
             #jump to memory address
@@ -204,6 +215,4 @@ for i in range(len_sim):
     flags[14] = 0
     flags[15] = 0
     
-print(*input_sim)
-for i in range(256-len_sim):
-    print('0000000000000000')
+print(*mem_dump)
