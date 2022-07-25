@@ -61,10 +61,7 @@ r3 = '0000000000000000'
 r4 = '0000000000000000'
 r5 = '0000000000000000'
 r6 = '0000000000000000'
-
-flags = []
-for i in range(16):
-    flags.append(0)
+flags = '0000000000000000'
 
 A_sim = {'10000' : 'add', '10001' : 'sub', '10110': 'mul', '11010': 'xor', '11011': 'or', '11100': 'and'}
 
@@ -75,6 +72,8 @@ C_sim = {'10011': 'mov', '10111': 'div', '11101': 'not', '11110': 'cmp'}
 D_sim = {'10100': 'ld', '10101': 'st'}
 
 E_sim = {'11111': 'jmp', '01100': 'jlt', '01101': 'jgt', '01111': 'je'}
+
+F_sim = {'01010': 'hlt'}
 
 reg_value={'000': r0,'001': r1,'010': r2,'011': r3,'100': r4,'101': r5,'110': r6}
 
@@ -126,16 +125,6 @@ for i in range(len_sim):
                 else:
                     reg_value[a3][m] == 1
 
-            # ans = int(reg_value[a1]) ^ int(reg_value[a2])
-            # reg_value[a3] = str(ans)
-
-            # for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
-
-            #     if reg_val[input_list[i][1]][i] == reg_val[input_list[i][2]][i]:
-            #         reg_val[input_list[i][3]][i].append(0)
-            #     else:
-            #         reg_val[input_list[i][3]][i].append(1)
-
         elif(A_sim[op_sim] == 'or'):
 
             for m in range(16):
@@ -144,9 +133,6 @@ for i in range(len_sim):
                 else:
                     reg_value[a3][m] == 1
 
-            # ans = int(reg_value[a1]) | int(reg_value[a2])
-            # reg_value[a3] = str(ans)
-
         elif(A_sim[op_sim] == 'and'):
 
             for m in range(16):
@@ -154,9 +140,6 @@ for i in range(len_sim):
                     reg_value[a3][m] == 1
                 else:
                     reg_value[a3][m] == 0
-
-            # ans = int(reg_value[a1]) & int(reg_value[a2])
-            # reg_value[a3] = str(ans)
 
     #Type B
     elif(op_sim in B_sim):
@@ -232,6 +215,10 @@ for i in range(len_sim):
         elif(E_sim[op_sim]=='je' & flags[15]==1):
             print()
             #jump to memory address
+
+    elif(op_sim in F_sim):
+        if(F_sim[op_sim]=='hlt'):
+            break
 
     res = dec_to_bi_8(i) + ' ' + r0 + ' ' + r1 + ' ' + r2 + ' ' + r3 + ' ' + r4 + ' ' + r5 + ' ' + r6 + ' ' + flags
     final_sim.append(res)
