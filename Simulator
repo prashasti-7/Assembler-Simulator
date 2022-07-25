@@ -189,7 +189,7 @@ for i in range(len_sim):
             #jump to memory address
         elif(E_sim[op_sim]=='jlt' & flags[13]==1):
             print()
-            #jump to memory adress
+            #jump to memory address
         elif(E_sim[op_sim]=='jgt' & flags[14]==1):
             print()
             #jump to memory adress 
@@ -199,6 +199,10 @@ for i in range(len_sim):
 
     res = dec_to_bi_8(i) + ' ' + r0 + ' ' + r1 + ' ' + r2 + ' ' + r3 + ' ' + r4 + ' ' + r5 + ' ' + r6 + ' ' + flags
     final_sim.append(res)
+    flags[12] = 0
+    flags[13] = 0
+    flags[14] = 0
+    flags[15] = 0
     
 print(*input_sim)
 for i in range(256-len_sim):
