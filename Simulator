@@ -120,18 +120,43 @@ for i in range(len_sim):
 
         elif(A_sim[op_sim] == 'xor'):
 
-            ans = int(reg_value[a1]) ^ int(reg_value[a2])
-            reg_value[a3] = str(ans)
+            for m in range(16):
+                if reg_value[a1][m] == reg_value[a2][m]:
+                    reg_value[a3][m] == 0
+                else:
+                    reg_value[a3][m] == 1
+
+            # ans = int(reg_value[a1]) ^ int(reg_value[a2])
+            # reg_value[a3] = str(ans)
+
+            # for i in reg_val[input_list[i][1]] and reg_val[input_list[i][2]]:
+
+            #     if reg_val[input_list[i][1]][i] == reg_val[input_list[i][2]][i]:
+            #         reg_val[input_list[i][3]][i].append(0)
+            #     else:
+            #         reg_val[input_list[i][3]][i].append(1)
 
         elif(A_sim[op_sim] == 'or'):
 
-            ans = int(reg_value[a1]) | int(reg_value[a2])
-            reg_value[a3] = str(ans)
+            for m in range(16):
+                if reg_value[a1][m] == 0 and reg_value[a2][m] == 0:
+                    reg_value[a3][m] == 0
+                else:
+                    reg_value[a3][m] == 1
+
+            # ans = int(reg_value[a1]) | int(reg_value[a2])
+            # reg_value[a3] = str(ans)
 
         elif(A_sim[op_sim] == 'and'):
 
-            ans = int(reg_value[a1]) & int(reg_value[a2])
-            reg_value[a3] = str(ans)
+            for m in range(16):
+                if reg_value[a1][m] == 1 and reg_value[a2][m] == 1:
+                    reg_value[a3][m] == 1
+                else:
+                    reg_value[a3][m] == 0
+
+            # ans = int(reg_value[a1]) & int(reg_value[a2])
+            # reg_value[a3] = str(ans)
 
     #Type B
     elif(op_sim in B_sim):
