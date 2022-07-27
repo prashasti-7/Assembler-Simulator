@@ -52,7 +52,7 @@ def bi_to_dec(n):
 #         sum = sum + int(l[k-i-1])*(2**i)
 #     return sum
 
-input_sim = ['1001000100000101', '1010100100000011', '0101000000000000']
+input_sim = []
 len_sim = len(input_sim)
 pc_count = 0
 prog_count = [00000000]
