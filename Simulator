@@ -52,7 +52,7 @@ def bi_to_dec(n):
 #         sum = sum + int(l[k-i-1])*(2**i)
 #     return sum
 
-input_sim = []
+input_sim = ['1001000100000101', '1010100100000011', '0101000000000000']
 len_sim = len(input_sim)
 pc_count = 0
 prog_count = [00000000]
@@ -60,7 +60,7 @@ final_sim = []
 
 mem_dump = []
 
-mem_dump.copy(input_sim)
+mem_dump = input_sim.copy()
 for l in range(256-len_sim):
     mem_dump.append('0000000000000000')
 
@@ -86,7 +86,7 @@ E_sim = {'11111': 'jmp', '01100': 'jlt', '01101': 'jgt', '01111': 'je'}
 
 F_sim = {'01010': 'hlt'}
 
-reg_value = {'000': r0,'001': r1,'010': r2,'011': r3,'100': r4,'101': r5,'110': r6}
+reg_value = {'000': r0,'001': r1,'010': r2,'011': r3,'100': r4,'101': r5,'110': r6, '111':flags}
 
 # for i in range(len_sim):
 #     if(input_sim[i][0] == 'hlt'):
@@ -213,10 +213,10 @@ for i in range(len_sim):
         mem_add = input_sim[i][8:16]
         x = bi_to_dec(int(mem_add))
         d1 = input_sim[i][5:8]
-        if(B_sim[op_sim] == 'ld'):    #loads data of reg in mem dump
+        if(D_sim[op_sim] == 'ld'):    #loads data of reg in mem dump
             mem_dump[x] == reg_value[d1]
 
-        elif(B_sim[op_sim] == 'st'):  #loads data of mem dump in reg
+        elif(D_sim[op_sim] == 'st'):  #loads data of mem dump in reg
             reg_value[d1] == mem_dump[x]
 
     #Type E
@@ -238,15 +238,21 @@ for i in range(len_sim):
 
     elif(op_sim in F_sim):
         if(F_sim[op_sim]=='hlt'):
+            res = dec_to_bi_8(i) + ' ' + reg_value['000'] + ' ' + reg_value['001'] + ' ' + reg_value['010'] + ' ' + reg_value['011'] + ' ' + reg_value['100'] + ' ' + reg_value['101'] + ' ' + reg_value['110'] + ' ' + reg_value['111']
+            final_sim.append(res)
             break
 
-    res = dec_to_bi_8(i) + ' ' + r0 + ' ' + r1 + ' ' + r2 + ' ' + r3 + ' ' + r4 + ' ' + r5 + ' ' + r6 + ' ' + flags
+    res = dec_to_bi_8(i) + ' ' + reg_value['000'] + ' ' + reg_value['001'] + ' ' + reg_value['010'] + ' ' + reg_value['011'] + ' ' + reg_value['100'] + ' ' + reg_value['101'] + ' ' + reg_value['110'] + ' ' + reg_value['111']
     final_sim.append(res)
     flags = '0000000000000000'
     # flags[12] = 0
     # flags[13] = 0
     # flags[14] = 0
     # flags[15] = 0
-    
-print(*final_sim)
-print(*mem_dump)
+
+for r in range(len(final_sim)):
+    print(final_sim[r])
+
+for r in mem_dump:
+    print(r)
+#print(*mem_dump)
