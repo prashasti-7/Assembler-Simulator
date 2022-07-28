@@ -166,12 +166,16 @@ for i in range(len_sim):
             reg_value[b1] = '00000000' + input_sim[i][8:]
 
         elif(B_sim[op_sim] == 'rs'):    
-            ans = bi_to_dec(int(reg_value[b1])) >> bi_to_dec(int(input_sim[i][8:]))   #do not use inbuilt functions
-            reg_value[b1] = dec_to_bi(ans)
+            value1 = bi_to_dec(int(reg_value[b1])) 
+            value2= bi_to_dec(int(input_sim[i][8:]))
+            ans=value1//(2**value2)   #do not use inbuilt functions
+            reg_value[b1] = dec_to_bi_16(ans)
 
         elif(B_sim[op_sim] == 'ls'):    
-            ans = bi_to_dec(int(reg_value[b1])) << bi_to_dec(int(input_sim[i][8:]))   #do not use inbuilt functions
-            reg_value[b1] = dec_to_bi(ans)
+            value1 = bi_to_dec(int(reg_value[b1])) 
+            value2= bi_to_dec(int(input_sim[i][8:]))
+            ans=value1*(2**value2)   #do not use inbuilt functions
+            reg_value[b1] = dec_to_bi_16(ans)
     
     #Type C
     elif(op_sim in C_sim):
@@ -186,15 +190,19 @@ for i in range(len_sim):
             value2 = bi_to_dec(int(reg_value[c2]))
             quotient = value1/value2
             rem = value1%value2
-            r0 = str(dec_to_bi(quotient))
-            r1 = str(dec_to_bi(rem))
+            r0 = str(dec_to_bi_16(quotient))
+            r1 = str(dec_to_bi_16(rem))
 
         elif(C_sim[op_sim]=='not'):                     #do ot use inbuilt function
-                value1=bi_to_dec(int(reg_value[c1]))
-                ans =~value1 & 255
-                ans2 = str(dec_to_bi(ans))
-                reg_value[c2] = str(ans2)
-
+                # value1=bi_to_dec(int(reg_value[c1]))
+                # ans =~value1 & 255
+                # ans2 = str(dec_to_bi(ans))
+                # reg_value[c2] = str(ans2)
+                for m in range(16):
+                    if reg_value[c1][m] == 1:
+                        reg_value[c2][m] == 0
+                    else:
+                        reg_value[c2][m] == 1
         elif(C_sim[op_sim]=='cmp'):
             value1 = bi_to_dec(int(reg_value[c1]))
             value2 = bi_to_dec(int(reg_value[c2]))
