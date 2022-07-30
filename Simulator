@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def dec_to_bi(n):
     p = ''
     st = ''
@@ -45,6 +47,7 @@ def bi_to_dec(n):
     return deci
 
 input_sim = []
+#'1001000100000101','1010100100000011', '0101000000000000'
 #'1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '0101000000000000'
 # '1001100000001010', '1001100000001010', '1001100000001010', '1001100000001010', '1001100000001010', '1001100000001010', '0101000000000000'
 #'1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010','1000100000001010', '1000100000001010', '1000100000001010', '0101000000000000'
@@ -52,6 +55,9 @@ len_sim = len(input_sim)
 pc_count = 0
 prog_count = '00000000'
 final_sim = []
+cycle = 0
+pc_list = []
+cycle_list = []
 
 mem_dump = []
 
@@ -243,14 +249,19 @@ while i < len_sim:
     flags = '0000000000000000'
     # pc_count += 1
     i+=1
+    pc_list.append(pc_count)
+    cycle_list.append(cycle)
     pc_count = i
+    cycle += 1
 
 for r in range(len(final_sim)):
     print(final_sim[r])
 
-for r in mem_dump:
-    print(r)
-print(*mem_dump)
+# for r in mem_dump:
+#     print(r)
+# print(*mem_dump)
+plt.plot(cycle_list, pc_list, label = "line 1")
+plt.title('Cycle-Pc')
 
 #cmp R3 R4   (R3>R4)---14 = 1
 #add R4 R5 R6 (R4>R3)
