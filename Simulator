@@ -167,15 +167,19 @@ while i < len_sim:
             
             reg_value[b1] = '00000000' + input_sim[i][8:]
 
-        elif(B_sim[op_sim] == 'rs'):    
+        elif(B_sim[op_sim] == 'rs'):
+            value1 = bi_to_dec(int(reg_value[b1])) 
+            value2= bi_to_dec(int(input_sim[i][8:]))
+            ans=value1//(2**value2)   
+            reg_value[b1] = dec_to_bi_16(ans)
             flags = '0000000000000000'
-            ans = bi_to_dec(int(reg_value[b1])) >> bi_to_dec(int(input_sim[i][8:]))   #do not use inbuilt functions
-            reg_value[b1] = dec_to_bi(ans)
-
-        elif(B_sim[op_sim] == 'ls'):    
+        elif(B_sim[op_sim] == 'ls'):
+            value1 = bi_to_dec(int(reg_value[b1])) 
+            value2= bi_to_dec(int(input_sim[i][8:]))
+            ans=value1*(2**value2)   
+            reg_value[b1] = dec_to_bi_16(ans)
             flags = '0000000000000000'
-            ans = bi_to_dec(int(reg_value[b1])) << bi_to_dec(int(input_sim[i][8:]))   #do not use inbuilt functions
-            reg_value[b1] = dec_to_bi(ans)
+           
     
     #Type C
     elif(op_sim in C_sim):
@@ -195,13 +199,14 @@ while i < len_sim:
             r0 = str(dec_to_bi(quotient))
             r1 = str(dec_to_bi(rem))
 
-        elif(C_sim[op_sim]=='not'):                     #do not use inbuilt function
+        elif(C_sim[op_sim]=='not'):
+            for m in range(16):
+                    if reg_value[c1][m] == 1:
+                        reg_value[c2][m] == 0
+                    else:
+                        reg_value[c2][m] == 1
             flags = '0000000000000000'
-            value1=bi_to_dec(int(reg_value[c1]))
-            ans =~value1 & 255
-            ans2 = str(dec_to_bi(ans))
-            reg_value[c2] = str(ans2)
-
+           
         elif(C_sim[op_sim]=='cmp'):
             value1 = bi_to_dec(int(reg_value[c1]))
             value2 = bi_to_dec(int(reg_value[c2]))
