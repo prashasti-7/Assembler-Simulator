@@ -57,8 +57,6 @@ for line in file:
     for i in line.split():
         input_sim.append(i)
 
-# print(input_sim)
-
 # '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '0101000000000000'
 # '1001000100000101','1010100100000011', '0101000000000000']
 # '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '0101000000000000'
@@ -122,7 +120,6 @@ while i < len_sim:
                 reg_value[a3] = dec_to_bi_16(sum)
             reg_value['111'] = '0000000000000000'
 
-
         elif(A_sim[op_sim] == 'sub'):
             value1 = bi_to_dec(int(reg_value[a1]))
             value2 = bi_to_dec(int(reg_value[a2]))
@@ -132,7 +129,6 @@ while i < len_sim:
             else:
                 reg_value[a3] = dec_to_bi_16(diff)
             reg_value['111'] = '0000000000000000'
-
 
         elif(A_sim[op_sim] == 'mul'):
             value1 = bi_to_dec(int(reg_value[a1]))
@@ -144,7 +140,6 @@ while i < len_sim:
                 reg_value[a3] = dec_to_bi_16(prod)
             reg_value['111'] = '0000000000000000'
 
-
         elif(A_sim[op_sim] == 'xor'):
             for m in range(16):
                 if reg_value[a1][m] == reg_value[a2][m]:
@@ -152,7 +147,6 @@ while i < len_sim:
                 else:
                     reg_value[a3][m] == 1
             reg_value['111'] = '0000000000000000'
-
 
         elif(A_sim[op_sim] == 'or'):
             for m in range(16):
@@ -170,7 +164,6 @@ while i < len_sim:
                     reg_value[a3][m] == 0
             reg_value['111'] = '0000000000000000'
 
-
     #Type B
     elif(op_sim in B_sim):
         b1 = input_sim[i][5:8]
@@ -184,6 +177,7 @@ while i < len_sim:
             ans=value1//(2**value2)   
             reg_value[b1] = dec_to_bi_16(ans)
             reg_value['111'] = '0000000000000000'
+
         elif(B_sim[op_sim] == 'ls'):
             value1 = bi_to_dec(int(reg_value[b1])) 
             value2= bi_to_dec(int(input_sim[i][8:]))
@@ -191,7 +185,6 @@ while i < len_sim:
             reg_value[b1] = dec_to_bi_16(ans)
             reg_value['111'] = '0000000000000000'
            
-    
     #Type C
     elif(op_sim in C_sim):
         c1=input_sim[i][10:13]
@@ -234,11 +227,11 @@ while i < len_sim:
         x = bi_to_dec(int(mem_add))
         d1 = input_sim[i][5:8]
         if(D_sim[op_sim] == 'ld'):    #loads data of reg in mem dump
-            mem_dump[x] == reg_value[d1]
+            reg_value[d1] = mem_dump[x]
             reg_value['111'] = '0000000000000000'
 
         elif(D_sim[op_sim] == 'st'):  #loads data of mem dump in reg
-            reg_value[d1] == mem_dump[x]
+            mem_dump[x] = reg_value[d1]
             reg_value['111'] = '0000000000000000'
 
     #Type E
