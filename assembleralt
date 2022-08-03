@@ -135,6 +135,31 @@ def movInst():
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
+# def movfInst():                       
+#     word = input_list[i][2]           
+#     word_list = list(word)
+#     if(word_list[0]=='$'):
+#         word_list.remove('$')
+#         word_final = ''.join(word_list)
+#         if (int(word_final)>255 or int(word_final)<0):
+#             error_list.append("Immediate value invalid. Line "+str(i))
+#         decimal_number = str(word_final)
+#         value = dec_to_bi(decimal_number)             ###conversion to floating point
+#         value  = str(value)
+#         length = len(value)
+#         t = '0'*(8-length)
+#         final_print.append(op_code['mov'][1] + reg_code[input_list[i][1]] + t + value)
+
+#     else:
+#         if(input_list[i][2] in reg_code):  #Type C
+#             final_print.append(op_code['mov'][2] + '00000' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] )
+
+#         elif(input_list[i][2] == 'FLAGS'):
+#             final_print.append(op_code['mov'][2] + '00000' + reg_code[input_list[i][1]] + '111')
+
+#         else:
+#             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
+
 def lsInst():
     word = input_list[i][2]
     word_list = list(word)
@@ -181,9 +206,25 @@ for i in range(len_list):
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+ str(i))
             i+=1
             
+    elif(input_list[i][0]=='addf' and len_inst == 4):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+            addfInst()
+            i+=1
+        else:
+            error_list.append("ERROR!Register format incorrect."+"-"+"Line "+ str(i))
+            i+=1
+
     elif(input_list[i][0]=='sub' and len_inst == 4):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             subInst()
+            i+=1
+        else:
+            error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
+            i+=1
+
+    elif(input_list[i][0]=='subf' and len_inst == 4):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+            subfInst()
             i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
@@ -345,10 +386,22 @@ for i in range(len_list):
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
                         # error handling for wrong input
+                
+                elif(input_list[i][1]=='addf' and len_inst == 5):
+                    if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
+                        final_print.append(op_code['addf']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                    else:
+                        error_list.append("ERROR!Register format incorrect."+"-"+"Line "+ str(i))
                         
                 elif(input_list[i][1]=='sub' and len_inst==5):
                     if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
                         final_print.append(op_code['sub']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
+                    else:
+                        error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
+
+                elif(input_list[i][1]=='subf' and len_inst == 5):
+                    if(input_list[i][2] in reg_code and input_list[i][3] in reg_code and input_list[i][4] in reg_code):
+                        final_print.append(op_code['subf']+'00' + reg_code[input_list[i][2]] + reg_code[input_list[i][3]] + reg_code[input_list[i][4]])
                     else:
                         error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
 
