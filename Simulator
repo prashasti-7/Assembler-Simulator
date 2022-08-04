@@ -1,4 +1,4 @@
-# import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sys
 from sys import stdin 
 
@@ -261,6 +261,8 @@ while i < len_sim:
             reg_value['111'] = '0000000000000000'
             res = dec_to_bi_8(i) + ' ' + reg_value['000'] + ' ' + reg_value['001'] + ' ' + reg_value['010'] + ' ' + reg_value['011'] + ' ' + reg_value['100'] + ' ' + reg_value['101'] + ' ' + reg_value['110'] + ' ' + reg_value['111']
             final_sim.append(res)
+            pc_list.append(pc_count)
+            cycle_list.append(cycle)
             break
 
     res = dec_to_bi_8(pc_count) + ' ' + reg_value['000'] + ' ' + reg_value['001'] + ' ' + reg_value['010'] + ' ' + reg_value['011'] + ' ' + reg_value['100'] + ' ' + reg_value['101'] + ' ' + reg_value['110'] + ' ' + reg_value['111']
