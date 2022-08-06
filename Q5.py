@@ -3,6 +3,9 @@ memorySpaceBytes={'B':0,'KB':10,'MB':20,'GB':30,'TB':40}
 
 memorySpaceBits={'b':0,'Kb':7,'Mb':17,'Gb':27,'Tb':37}
 
+def exitCode():
+    quit()
+
 print("Enter space in memory:")
 mem_space=list(map(str,input().split())) 
 print('''Four types of memory are:
@@ -21,45 +24,52 @@ add_bits_og=(math.log2(mem)+memorySpaceBytes[mem_space[1]])+3
 if(mem_space[1] in memorySpaceBytes):
     if (mem_addressesd==1):
         add_bits=add_bits_og
-        print("Minimum number of bits to represent an address:",add_bits)
     elif(mem_addressesd==2):
         add_bits=add_bits_og-2
-        print("Minimum number of bits to represent an address:",add_bits)
     elif(mem_addressesd==3):
         add_bits=add_bits_og-3
-        print("Minimum number of bits to represent an address:",add_bits)
     elif(mem_addressesd==4):
         add_bits=add_bits_og-3
         print("Since we are not taking input for CPU thus we are considering Byte adressable as default,as mentioned.")
-        print("Minimum number of bits to represent an address:",add_bits)
     else:
         add_bits=add_bits_og-3
         print("Error! Since its not mentioned hpw memory is addressed we take byte adressable as default.")
-        print("Minimum number of bits to represent an address:",add_bits)
 elif(mem_space[1] in memorySpaceBits):
     if (mem_addressesd==1):
         add_bits=add_bits_og-3
-        print("Minimum number of bits to represent an address:",add_bits)
     elif(mem_addressesd==2):
         add_bits=add_bits_og-5
-        print("Minimum number of bits to represent an address:",add_bits)
     elif(mem_addressesd==3):
         add_bits=add_bits_og-6
-        print("Minimum number of bits to represent an address:",add_bits)
     elif(mem_addressesd==4):
         add_bits=add_bits_og-6
         print("Since we are not taking input for CPU thus we are considering Byte adressable as default,as mentioned.")
-        print("Minimum number of bits to represent an address:",add_bits)
     else:
         add_bits=add_bits_og-6
-        print("Error! Since its not mentioned hpw memory is addressed we take byte adressable as default.")
-        print("Minimum number of bits to represent an address:",add_bits)
+        print("Error! Since its not mentioned how memory is addressed we take Byte adressable as default.")
+else:
+    print("Format Invalid")
+    exitCode()
+    
+if(add_bits<0):
+    print("Error! Length of address is more than length of instruction.")
+else:
+    print("Minimum number of bits to represent an address:",add_bits)
+
 #b
 op_len=inst_len-(reg_len+add_bits)
-print("Number of bits needed by opcode:",op_len)
+if(op_len<0):
+    print("Error! Opcode length is invalid.")
+    exitCode()
+else:
+    print("Number of bits needed by opcode:",op_len)
 #c
 filler_len=inst_len-(op_len+2*reg_len)
-print("Number of filler bits in instruction Type B:",filler_len)
+if(filler_len<0):
+    print("Error! Length of filler bits invalid.")
+
+else:
+    print("Number of filler bits in instruction Type B:",filler_len)
 #d                  ##doubt
 max_inst=2**op_len
 print("Maximum number of instructions this ISA can support:",max_inst)
