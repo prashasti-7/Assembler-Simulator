@@ -7,13 +7,17 @@ def exitCode():
     quit()
 
 print("Enter space in memory:")
-mem_space=list(map(str,input().split())) 
+mem_space=list(map(str,input().split()))
+if(mem_space[1] not in memorySpaceBytes and memorySpaceBits):
+    print("Format Invalid.")
+    exitCode()
 print('''Four types of memory are:
 1.Bit Addressable Memory
 2. Nibble Addressable Memory
 3. Byte Addressable Memory 
 4. Word Addressable Memory''')
 mem_addressesd=int(input("How the memory is addressed as mentioned above? Either of the 4 options:"))
+
 
 ##TYPE 1(ISA related)
 #a                                     ###doubt
@@ -34,6 +38,7 @@ if(mem_space[1] in memorySpaceBytes):
     else:
         add_bits=add_bits_og-3
         print("Error! Since its not mentioned hpw memory is addressed we take byte adressable as default.")
+        exitCode()
 elif(mem_space[1] in memorySpaceBits):
     if (mem_addressesd==1):
         add_bits=add_bits_og-3
@@ -47,12 +52,11 @@ elif(mem_space[1] in memorySpaceBits):
     else:
         add_bits=add_bits_og-6
         print("Error! Since its not mentioned how memory is addressed we take Byte adressable as default.")
-else:
-    print("Format Invalid")
-    exitCode()
+        exitCode()
     
 if(add_bits<0):
     print("Error! Length of address is more than length of instruction.")
+    exitCode()
 else:
     print("Minimum number of bits to represent an address:",add_bits)
 
@@ -67,6 +71,7 @@ else:
 filler_len=inst_len-(op_len+2*reg_len)
 if(filler_len<0):
     print("Error! Length of filler bits invalid.")
+    exitCode()
 
 else:
     print("Number of filler bits in instruction Type B:",filler_len)
