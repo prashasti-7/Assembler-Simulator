@@ -69,7 +69,7 @@ for p in range(len_list):
 
 for i in range(len_list):
     len_inst = len(input_list[i])
-    if(input_list[i][0]=='var'):
+    if(input_list[i][0]=='var' and len_inst==2):
         # q=0
         var_list.append(input_list[i][1])
         q = var_list.index(input_list[i][1])
