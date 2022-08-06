@@ -1,4 +1,4 @@
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import sys
 from sys import stdin 
 
@@ -6,10 +6,10 @@ def dec_to_bi(n):
     p = ''
     st = ''
     while n != 0:
-        r = int(n) % 2
-        st = st + str(r)
+        r = int(n)%2
+        st = st+str(r)
         n = int(n/2)
-        p = st[::-1]
+    p = st[::-1]
     return(p)
 
 def dec_to_bi_8(n):
@@ -20,7 +20,7 @@ def dec_to_bi_8(n):
         r = int(n)%2
         st = st + str(r)
         n = int(n/2)
-        p = st[::-1]
+    p = st[::-1]
     len_ans = len(p)
     final_8 = '0'*(8-len_ans) + p
     return(final_8)
@@ -33,7 +33,7 @@ def dec_to_bi_16(n):
         r = int(n)%2
         st = st+str(r)
         n = int(n/2)
-        p = st[::-1]
+    p = st[::-1]
     len_ans = len(p)
     final_16 = '0'*(16-len_ans) + p
     return(final_16)
@@ -43,12 +43,15 @@ def bi_to_dec(n):
     deci = 0
     while n != 0:
         p = int(n) % 10
-        deci = deci + int(p)*(2**i)
+        deci = deci + p*(2**i)
         i = i + 1
         n = int(n/10)
     return deci
 
-input_sim = []
+input_sim = ['1001000100000101','1001001000000001','1010001100011110','1000000011010011','1010101100011110',
+             '1010010000011011','1010010100011100', '1010011000011101','1010010000011000','1010010100011001','1010011000011010',
+             '1000000100010100','1000000101100101','1000000110101110','1010110000011010','1010110100011001','1010111000011000','1010110000011101',
+             '1010110100011100','1010111000011011','1111000000011001','0110100000010111','1111100000000010','0101000000000000']
 file = sys.stdin
 for line in file:
     if '\n' == line:
@@ -56,11 +59,13 @@ for line in file:
     list_instr = []
     for i in line.split():
         input_sim.append(i)
-# ['1001000100000101','1001001000000001','1010001100011110','1000000011010011','1010101100011110','1010010000011011','1010010100011100',
-# '1010011000011101','1010010000011000','1010010100011001','1010011000011010','1000000100010100','1000000101100101','1000000110101110','1010110000011010',
-# '1010110100011001','1010111000011000','1010110000011101','1010110100011100','1010111000011011','1111000000011001','0110100000010111','1111100000000010','0101000000000000']
+
+# ['1001000100000101','1001001000000001','1010001100011110','1000000011010011','1010101100011110','1010010000011011','1010010100011100', 
+# '1010011000011101','1010010000011000','1010010100011001','1010011000011010','1000000100010100','1000000101100101','1000000110101110',
+# '1010110000011010', # '1010110100011001','1010111000011000','1010110000011101','1010110100011100','1010111000011011','1111000000011001',
+# '0110100000010111','1111100000000010','0101000000000000']
 # '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '0101000000000000'
-# '1001000100000101','1010100100000011', '0101000000000000'
+# '1001000100000101','1010100100000011', '0101000000000000']
 # '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '1001000100000101', '0101000000000000'
 # '1001100000001010', '1001100000001010', '1001100000001010', '1001100000001010', '1001100000001010', '1001100000001010', '0101000000000000'
 # '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010', '1000100000001010','1000100000001010', '1000100000001010', '1000100000001010', '0101000000000000'
@@ -113,8 +118,6 @@ while i < len_sim:
         a3 = input_sim[i][13:16]
 
         if(A_sim[op_sim] == 'add'):
-            # reg_value[a1] = int(reg_value[a1])
-            # reg_value[a2] = int(reg_value[a2])
             value1 = bi_to_dec(int(reg_value[a1]))
             value2 = bi_to_dec(int(reg_value[a2]))
             sum = value1 + value2
@@ -228,8 +231,7 @@ while i < len_sim:
     #Type D
     elif(op_sim in D_sim):
         mem_add = input_sim[i][8:16]
-        mem_add = int(mem_add)
-        x = bi_to_dec(mem_add)
+        x = bi_to_dec(int(mem_add))
         d1 = input_sim[i][5:8]
         if(D_sim[op_sim] == 'ld'):    #loads data of reg in mem dump
             reg_value[d1] = mem_dump[x]
@@ -240,24 +242,23 @@ while i < len_sim:
             reg_value['111'] = '0000000000000000'
 
     #Type E
-    elif(op_sim in E_sim):                          ###doubt
+    elif(op_sim in E_sim):                        
         mem_add = input_sim[i][8:16]
-        mem_add = int(mem_add)
-        x = bi_to_dec(mem_add)
+        x = bi_to_dec(int(mem_add))
         if(E_sim[op_sim]=='jmp'):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jlt' and flags[13]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jgt' and flags[14]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address 
         elif(E_sim[op_sim]=='je' and flags[15]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         reg_value['111'] = '0000000000000000'
@@ -272,7 +273,6 @@ while i < len_sim:
             break
 
     res = dec_to_bi_8(pc_count) + ' ' + reg_value['000'] + ' ' + reg_value['001'] + ' ' + reg_value['010'] + ' ' + reg_value['011'] + ' ' + reg_value['100'] + ' ' + reg_value['101'] + ' ' + reg_value['110'] + ' ' + reg_value['111']
-    # res = str(dec_to_bi_8(pc_count)) + ' ' + str(reg_value['000']) + ' ' + str(reg_value['001']) + ' ' + str(reg_value['010']) + ' ' + str(reg_value['011']) + ' ' + str(reg_value['100']) + ' ' + str(reg_value['101']) + ' ' + str(reg_value['110']) + ' ' + str(reg_value['111'])
     final_sim.append(res)
     # pc_count += 1
     i+=1
@@ -286,5 +286,10 @@ for r in range(len(final_sim)):
 
 for r in mem_dump:
     print(r)
-# plt.scatter(cycle_list, pc_list, label = "line 1")
-# plt.title('Cycle-Pc')
+# print(*mem_dump)
+plt.scatter(cycle_list, pc_list, label = "line 1")
+plt.title('Cycle-Pc')
+plt.show()
+#cmp R3 R4   (R3>R4)---14 = 1
+#add R4 R5 R6 (R4>R3)
+#jgt mem_address
