@@ -150,10 +150,10 @@ while i < len_sim:
             value2 = bi_to_dec(int(reg_value[a2]))
             sum = value1 + value2
             if (value1+value2>255):
+                reg_value['111'] = '0000000000001000'
                 reg_value[a3] = '1111111111111111'
             else:
                 reg_value[a3] = dec_to_bi_16(sum)
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'sub'):
             value1 = bi_to_dec(int(reg_value[a1]))
@@ -161,9 +161,9 @@ while i < len_sim:
             diff = value1-value2
             if (value1-value2<0):
                 reg_value[a3] ='0000000000000000'
+                reg_value['111'] = '0000000000001000'
             else:
                 reg_value[a3] = dec_to_bi_16(diff)
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'mul'):
             value1 = bi_to_dec(int(reg_value[a1]))
@@ -171,9 +171,9 @@ while i < len_sim:
             prod=value1*value2
             if (value1*value2>255):
                 reg_value[a3] = '1111111111111111'
+                reg_value['111'] = '0000000000001000'
             else:
                 reg_value[a3] = dec_to_bi_16(prod)
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'xor'):
             for m in range(16):
@@ -209,7 +209,6 @@ while i < len_sim:
                 reg_value[a3] = '0000000011111111'
             else:
                 reg_value[a3] = '0'*8 + ansf
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'subf'):          #incomplete
             value1 = f_point(int(reg_value[a1]))
@@ -220,7 +219,6 @@ while i < len_sim:
                 reg_value[a3] = '0000000000000000'
             else:
                 reg_value[a3] = '0'*8 + ansf
-            reg_value['111'] = '0000000000000000'
 
     #Type B
     elif(op_sim in B_sim):
