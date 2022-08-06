@@ -9,7 +9,7 @@ def dec_to_bi(n):
         r = int(n)%2
         st = st+str(r)
         n = int(n/2)
-        p = st[::-1]
+    p = st[::-1]
     return(p)
 
 def dec_to_bi_8(n):
@@ -20,7 +20,7 @@ def dec_to_bi_8(n):
         r = int(n)%2
         st = st + str(r)
         n = int(n/2)
-        p = st[::-1]
+    p = st[::-1]
     len_ans = len(p)
     final_8 = '0'*(8-len_ans) + p
     return(final_8)
@@ -33,7 +33,7 @@ def dec_to_bi_16(n):
         r = int(n)%2
         st = st+str(r)
         n = int(n/2)
-        p = st[::-1]
+    p = st[::-1]
     len_ans = len(p)
     final_16 = '0'*(16-len_ans) + p
     return(final_16)
@@ -43,7 +43,7 @@ def bi_to_dec(n):
     deci = 0
     while n != 0:
         p = int(n) % 10
-        deci = deci + p*2**i
+        deci = deci + p*(2**i)
         i = i + 1
         n = int(n/10)
     return deci
