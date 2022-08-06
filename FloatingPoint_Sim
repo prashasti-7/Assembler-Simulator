@@ -1,4 +1,4 @@
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import sys
 from sys import stdin 
 
@@ -8,7 +8,7 @@ def dec_to_bi(n):
     while n != 0:
         r = int(n)%2
         st = st+str(r)
-        n = int(n)//2
+        n = int(n/2)
         p = st[::-1]
     return(p)
 
@@ -19,7 +19,7 @@ def dec_to_bi_8(n):
     while n != 0:
         r = int(n)%2
         st = st + str(r)
-        n = int(n)//2
+        n = int(n/2)
         p = st[::-1]
     len_ans = len(p)
     final_8 = '0'*(8-len_ans) + p
@@ -32,7 +32,7 @@ def dec_to_bi_16(n):
     while n != 0:
         r = int(n)%2
         st = st+str(r)
-        n = int(n)//2
+        n = int(n/2)
         p = st[::-1]
     len_ans = len(p)
     final_16 = '0'*(16-len_ans) + p
@@ -45,7 +45,7 @@ def bi_to_dec(n):
         p = int(n) % 10
         deci = deci + p*2**i
         i = i + 1
-        n = int(n)//10
+        n = int(n/10)
     return deci
 
 def f_point(reg):
@@ -299,19 +299,19 @@ while i < len_sim:
         mem_add = input_sim[i][8:16]
         x = bi_to_dec(int(mem_add))
         if(E_sim[op_sim]=='jmp'):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jlt' and flags[13]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jgt' and flags[14]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address 
         elif(E_sim[op_sim]=='je' and flags[15]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         reg_value['111'] = '0000000000000000'
@@ -340,9 +340,9 @@ for r in range(len(final_sim)):
 for r in mem_dump:
     print(r)
 # print(*mem_dump)
-# plt.scatter(cycle_list, pc_list, label = "line 1")
-# plt.title('Cycle-Pc')
-
+plt.scatter(cycle_list, pc_list, label = "line 1")
+plt.title('Cycle-Pc')
+plt.show()
 #cmp R3 R4   (R3>R4)---14 = 1
 #add R4 R5 R6 (R4>R3)
 #jgt mem_address
