@@ -131,5 +131,5 @@ val_list = list(memorySpaceBytes.values())
 
 position=val_list.index(unit)
 unit_final=key_list[position]
-print(val_final+unit_final)
+print(val_final+' '+unit_final)
 exit()
