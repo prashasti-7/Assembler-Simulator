@@ -227,9 +227,9 @@ for i in range(len_list):
         if(input_list[i][1] in reg_code):
             movInst()
 
-        elif(input_list[i][1] == 'FLAGS'):
+        elif(input_list[i][1] == 'FLAGS' and input_list[i][2] in reg_code):
             final_print.append(op_code['mov'][2] + '00000' + '111' + reg_code[input_list[i][2]])
-            
+
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
         i+=1
