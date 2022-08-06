@@ -78,6 +78,8 @@ def convert(decimal):
     ans = str(ans)  
     ans = ans[2:]
     final = final + dec_to_bi(int(l-1))
+    if(len(final)>3 or len(ans)>5):
+        return -1
     final = '0'*(3-len(final)) + final + ans + '0'*(5-len(ans)) 
     return final
 
@@ -201,11 +203,12 @@ while i < len_sim:
             value1 = f_point(int(reg_value[a1]))
             value2 = f_point(int(reg_value[a2]))
             sum = value1 + value2
-            reg_value[a3] = convert(sum)
-            if (value1+value2>255):
-                reg_value[a3] = '1111111111111111'
+            ansf = convert(sum)
+            if (ansf == -1):
+                reg_value['111'] = '0000000000001000'
+                reg_value[a3] = '0000000011111111'
             else:
-                reg_value[a3] = dec_to_bi_16(sum)
+                reg_value[a3] = '0'*8 + ansf
             reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'subf'):          #incomplete
@@ -213,7 +216,11 @@ while i < len_sim:
             value2 = f_point(int(reg_value[a2]))
             diff = value1-value2
             if(diff < 1):
-                reg_value['111'] = '0000000000000000'
+                reg_value['111'] = '0000000000001000'
+                reg_value[a3] = '0000000000000000'
+            else:
+                reg_value[a3] = '0'*8 + ansf
+            reg_value['111'] = '0000000000000000'
 
     #Type B
     elif(op_sim in B_sim):
