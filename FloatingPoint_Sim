@@ -206,6 +206,7 @@ while i < len_sim:
             ansf = convert(sum)
             if (ansf == -1):
                 reg_value['111'] = '0000000000001000'
+                reg_value[a3] = '0000000011111111'
             else:
                 reg_value[a3] = '0'*8 + ansf
             reg_value['111'] = '0000000000000000'
@@ -216,6 +217,7 @@ while i < len_sim:
             diff = value1-value2
             if(diff < 1):
                 reg_value['111'] = '0000000000001000'
+                reg_value[a3] = '0000000000000000'
             else:
                 reg_value[a3] = '0'*8 + ansf
             reg_value['111'] = '0000000000000000'
