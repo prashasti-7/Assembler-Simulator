@@ -201,11 +201,12 @@ while i < len_sim:
             value1 = f_point(int(reg_value[a1]))
             value2 = f_point(int(reg_value[a2]))
             sum = value1 + value2
-            reg_value[a3] = convert(sum)
-            if (value1+value2>255):
-                reg_value[a3] = '1111111111111111'
+            ansf = convert(sum)
+            len_f = len(ansf)
+            if (len_f>8):
+                reg_value['111'] = '0000000000001000'
             else:
-                reg_value[a3] = dec_to_bi_16(sum)
+                reg_value[a3] = '0'*8 + ansf
             reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'subf'):          #incomplete
@@ -213,7 +214,10 @@ while i < len_sim:
             value2 = f_point(int(reg_value[a2]))
             diff = value1-value2
             if(diff < 1):
-                reg_value['111'] = '0000000000000000'
+                reg_value['111'] = '0000000000001000'
+            else:
+                reg_value[a3] = '0'*8 + ansf
+            reg_value['111'] = '0000000000000000'
 
     #Type B
     elif(op_sim in B_sim):
