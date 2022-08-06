@@ -10,7 +10,6 @@ var_count = 0
 k=0
 p=0
 not_final = []
-s=0
 
 l=[]
 final_print=[]
@@ -28,6 +27,29 @@ def dec_to_bi(n):
         p=st[::-1]
     return(p)
 
+def convert(decimal):
+    st = ''
+    int_f = ''
+    final = ''
+    dec1 = decimal % 1
+    integer = int(decimal/1)
+    int_f = dec_to_bi(int(integer))
+    l = len(int_f)
+    while dec1 != 0:
+        dec2 = dec1 * 2
+        dec1 = dec2 % 1
+        k = int(dec2/1)
+        st = st + str(k)
+    int_f = int_f + '.' + st    
+    ans = float(int_f) / (10 ** (l-1))
+    ans = str(ans)  
+    ans = ans[2:]
+    final = final + dec_to_bi(int(l-1))
+    if(len(final)>3 or len(ans)>5):
+        return -1
+    final = '0'*(3-len(final)) + final + ans + '0'*(5-len(ans)) 
+    return final
+
 l=[]
 def bi_to_dec(l):           
     k = len(l)             
@@ -40,9 +62,10 @@ op_code={'add':'10000','sub':'10001','mov':{1:'10010',2:'10011'},'ld':'10100',
         'st':'10101','mul':'10110','div':'10111','rs':'11000',
         'ls':'11001','xor':'11010','or':'11011','and':'11100',
         'not':'11101', 'cmp':'11110','jmp':'11111','jlt':'01100',
-        'jgt':'01101','je':'01111','hlt':'01010'}                      #'mov':10010--->immediate  'mov':10011--->register   
+        'jgt':'01101','je':'01111','hlt':'01010', 'addf': '00000', 'subf': '00001', 'movf': '00010'}                      #'mov':10010--->immediate  'mov':10011--->register   
 
-reg_code={'R0':'000','R1':'001','R2':'010','R3':'011','R4':'100','R5':'101','R6':'110'}    
+reg_code={'R0':'000','R1':'001','R2':'010','R3':'011',
+'R4':'100','R5':'101','R6':'110'}
 
 file = sys.stdin
 for line in file:
@@ -67,19 +90,14 @@ for p in range(len_list):
 #         print("Variable not declared at the beginning", k)
 #         quit()
 
-for i in range(len_list):
-    len_inst = len(input_list[i])
-    if(input_list[i][0]=='var' and len_inst==2):
-        # q=0
-        var_list.append(input_list[i][1])
-        q = var_list.index(input_list[i][1])
-        value = len(var_list) + q
-        value = dec_to_bi(value)
-        value  = str(value)
-        length = len(value)
-        t = '0'*(8-length)
-        var_dict.update({input_list[i][1]:t+value})
+s = 0
+for h in range(len_list):
+    if(input_list[h][0] == 'hlt'):
+        s+=1
 
+# if(input_list[len_list-1][0] != 'hlt'):
+#     print("Halt instruction not at the end")
+#     quit()
 new_labels = []
 for i in range(len_list):
     #for label
@@ -87,7 +105,7 @@ for i in range(len_list):
         label_inst = str(input_list[i][0])
         label_inst = label_inst[:-1]
         if(label_inst in reg_code or label_inst in var_list or label_inst in op_code):
-            error_list.append("Illegal label name. Line "+ str(i))
+            error_list.append("Illegal label name. Line "+str(i))
 
         else:
             value = dec_to_bi(i-len(var_list))
@@ -98,17 +116,15 @@ for i in range(len_list):
 
             if(len(input_list[i])>1):
                 if(input_list[i][1]=='hlt'):
-                    s+=1
                     break
 
     elif (input_list[i][0]=='hlt' and i!=len_list-1):
-        s+=1
         print("Halt instruction not at the end. Error in Line " + str(i))
         quit()
 
-if (s == 0):
-    print("Halt instruction missing. Error in line: " + str(len_list+1))
-    quit()
+# if (s == 0):
+#     print("Halt instruction missing. Error in line: " + str(len_list+1))
+#     quit()
 
 # if (s>1):
 #     print("Halt instruction used multiple times")
@@ -181,9 +197,25 @@ for i in range(len_list):
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+ str(i))
             i+=1
             
+    elif(input_list[i][0]=='addf' and len_inst == 4):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+            final_print.append(op_code['addf']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i+=1
+        else:
+            error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
+            i+=1
+
     elif(input_list[i][0]=='sub' and len_inst == 4):
         if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
             final_print.append(op_code['sub']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
+            i+=1
+        else:
+            error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
+            i+=1
+        
+    elif(input_list[i][0]=='subf' and len_inst == 4):
+        if(input_list[i][1] in reg_code and input_list[i][2] in reg_code and input_list[i][3] in reg_code):
+            final_print.append(op_code['subf']+'00' + reg_code[input_list[i][1]] + reg_code[input_list[i][2]] + reg_code[input_list[i][3]])
             i+=1
         else:
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
@@ -235,6 +267,14 @@ for i in range(len_list):
             error_list.append("ERROR!Register format incorrect."+"-"+"Line "+str(i))
         i+=1
     
+    elif(input_list[i][0]=='movf' and len_inst == 3):
+        if(input_list[i][1] in reg_code):
+            word = input_list[i][2]
+            word.remove('$')
+            word = float(word)
+            f_val = convert(word)
+            final_print.append(op_code['movf'] + reg_code[input_list[i][1]]+ str(f_val))
+        
     elif(input_list[i][0]=='ls' and len_inst == 3):
         if(input_list[i][1] in reg_code):
             lsInst()
@@ -317,6 +357,17 @@ for i in range(len_list):
         i+=1
         if(i==len_list):
             break
+
+    elif(input_list[i][0]=='var' and len_inst==2):
+        # q=0
+        var_list.append(input_list[i][1])
+        q = var_list.index(input_list[i][1])
+        value = len_var_list + q
+        value = dec_to_bi(value)
+        value  = str(value)
+        length = len(value)
+        t = '0'*(8-length)
+        var_dict.update({input_list[i][1]:t+value})
 
     elif(input_list[i][0][-1]==':'):
         label_inst = str(input_list[i][0])
