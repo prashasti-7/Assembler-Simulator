@@ -239,19 +239,19 @@ while i < len_sim:
         mem_add = input_sim[i][8:16]
         x = bi_to_dec(int(mem_add))
         if(E_sim[op_sim]=='jmp'):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jlt' and flags[13]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jgt' and flags[14]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address 
         elif(E_sim[op_sim]=='je' and flags[15]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         reg_value['111'] = '0000000000000000'
