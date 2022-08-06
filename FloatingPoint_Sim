@@ -60,6 +60,27 @@ def f_point(reg):
     ans_final = sumf * (2**exp_dec)
     return ans_final
 
+def convert(decimal):
+    st = ''
+    int_f = ''
+    final = ''
+    dec1 = decimal % 1
+    integer = int(decimal/1)
+    int_f = dec_to_bi(int(integer))
+    l = len(int_f)
+    while dec1 != 0:
+        dec2 = dec1 * 2
+        dec1 = dec2 % 1
+        k = int(dec2/1)
+        st = st + str(k)
+    int_f = int_f + '.' + st    
+    ans = float(int_f) / (10 ** (l-1))
+    ans = str(ans)  
+    ans = ans[2:]
+    final = final + dec_to_bi(int(l-1))
+    final = '0'*(3-len(final)) + final + ans + '0'*(5-len(ans)) 
+    return final
+
 input_sim = []
 file = sys.stdin
 for line in file:
@@ -180,6 +201,7 @@ while i < len_sim:
             value1 = f_point(int(reg_value[a1]))
             value2 = f_point(int(reg_value[a2]))
             sum = value1 + value2
+            reg_value[a3] = convert(sum)
             if (value1+value2>255):
                 reg_value[a3] = '1111111111111111'
             else:
@@ -189,6 +211,9 @@ while i < len_sim:
         elif(A_sim[op_sim] == 'subf'):          #incomplete
             value1 = f_point(int(reg_value[a1]))
             value2 = f_point(int(reg_value[a2]))
+            diff = value1-value2
+            if(diff < 1):
+                reg_value['111'] = '0000000000000000'
 
     #Type B
     elif(op_sim in B_sim):
