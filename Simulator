@@ -1,4 +1,4 @@
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import sys
 from sys import stdin 
 
@@ -8,7 +8,7 @@ def dec_to_bi(n):
     while n != 0:
         r = int(n)%2
         st = st+str(r)
-        n = int(n)//2
+        n = int(n/2)
         p = st[::-1]
     return(p)
 
@@ -19,7 +19,7 @@ def dec_to_bi_8(n):
     while n != 0:
         r = int(n)%2
         st = st + str(r)
-        n = int(n)//2
+        n = int(n/2)
         p = st[::-1]
     len_ans = len(p)
     final_8 = '0'*(8-len_ans) + p
@@ -32,21 +32,63 @@ def dec_to_bi_16(n):
     while n != 0:
         r = int(n)%2
         st = st+str(r)
-        n = int(n)//2
+        n = int(n/2)
         p = st[::-1]
     len_ans = len(p)
     final_16 = '0'*(16-len_ans) + p
     return(final_16)
 
+# def bi_to_dec(n):
+#     i = 0
+#     deci = 0
+#     while n != 0:
+#         p = int(n) % 10
+#         deci = deci + p*2**i
+#         i = i + 1
+#         n = int(n/10)
+#     return deci
 def bi_to_dec(n):
-    i = 0
-    deci = 0
-    while n != 0:
-        p = int(n) % 10
-        deci = deci + p*2**i
-        i = i + 1
-        n = int(n)//10
-    return deci
+    sum = 0
+    n = str(n)
+    l = len(n)
+    for i in range(l):
+        sum = sum + int(int(n[i])*(2**(l-i-1)))
+    return sum
+
+def f_point(reg):
+    sumf = 0
+    f_reg = reg[8:]
+    exp = f_reg[0:3]
+    exp_dec = bi_to_dec(str(exp))
+    mantissa = f_reg[3:] 
+    for i in range(5):
+        sumf = sumf + mantissa[i]*(2**(-1-i))
+    sumf = sumf + 1
+    ans_final = sumf * (2**exp_dec)
+    return ans_final
+
+def convert(decimal):
+    st = ''
+    int_f = ''
+    final = ''
+    dec1 = decimal % 1
+    integer = int(decimal/1)
+    int_f = dec_to_bi(int(integer))
+    l = len(int_f)
+    while dec1 != 0:
+        dec2 = dec1 * 2
+        dec1 = dec2 % 1
+        k = int(dec2/1)
+        st = st + str(k)
+    int_f = int_f + '.' + st    
+    ans = float(int_f) / (10 ** (l-1))
+    ans = str(ans)  
+    ans = ans[2:]
+    final = final + dec_to_bi(int(l-1))
+    if(len(final)>3 or len(ans)>5):
+        return -1
+    final = '0'*(3-len(final)) + final + ans + '0'*(5-len(ans)) 
+    return final
 
 input_sim = []
 file = sys.stdin
@@ -86,9 +128,9 @@ r5 = '0000000000000000'
 r6 = '0000000000000000'
 flags = '0000000000000000'
 
-A_sim = {'10000' : 'add', '10001' : 'sub', '10110': 'mul', '11010': 'xor', '11011': 'or', '11100': 'and'}
+A_sim = {'10000' : 'add', '10001' : 'sub', '10110': 'mul', '11010': 'xor', '11011': 'or', '11100': 'and', '00000': 'addf', '00001': 'subf'}
 
-B_sim = {'10010' : 'mov', '11000': 'rs', '11001': 'ls'}
+B_sim = {'10010' : 'mov', '11000': 'rs', '11001': 'ls', '00010': 'movf'}
 
 C_sim = {'10011': 'mov', '10111': 'div', '11101': 'not', '11110': 'cmp'}
 
@@ -111,34 +153,34 @@ while i < len_sim:
         a3 = input_sim[i][13:16]
 
         if(A_sim[op_sim] == 'add'):
-            value1 = bi_to_dec(int(reg_value[a1]))
-            value2 = bi_to_dec(int(reg_value[a2]))
+            value1 = bi_to_dec(str(reg_value[a1]))
+            value2 = bi_to_dec(str(reg_value[a2]))
             sum = value1 + value2
             if (value1+value2>255):
+                reg_value['111'] = '0000000000001000'
                 reg_value[a3] = '1111111111111111'
             else:
                 reg_value[a3] = dec_to_bi_16(sum)
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'sub'):
-            value1 = bi_to_dec(int(reg_value[a1]))
-            value2 = bi_to_dec(int(reg_value[a2]))
+            value1 = bi_to_dec(str(reg_value[a1]))
+            value2 = bi_to_dec(str(reg_value[a2]))
             diff = value1-value2
             if (value1-value2<0):
                 reg_value[a3] ='0000000000000000'
+                reg_value['111'] = '0000000000001000'
             else:
                 reg_value[a3] = dec_to_bi_16(diff)
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'mul'):
-            value1 = bi_to_dec(int(reg_value[a1]))
-            value2 = bi_to_dec(int(reg_value[a2]))
+            value1 = bi_to_dec(str(reg_value[a1]))
+            value2 = bi_to_dec(str(reg_value[a2]))
             prod=value1*value2
             if (value1*value2>255):
                 reg_value[a3] = '1111111111111111'
+                reg_value['111'] = '0000000000001000'
             else:
                 reg_value[a3] = dec_to_bi_16(prod)
-            reg_value['111'] = '0000000000000000'
 
         elif(A_sim[op_sim] == 'xor'):
             for m in range(16):
@@ -164,6 +206,27 @@ while i < len_sim:
                     reg_value[a3][m] == 0
             reg_value['111'] = '0000000000000000'
 
+        elif(A_sim[op_sim] == 'addf'):       #incomplete
+            value1 = f_point(int(reg_value[a1]))
+            value2 = f_point(int(reg_value[a2]))
+            sum = value1 + value2
+            ansf = convert(sum)
+            if (ansf == -1):
+                reg_value['111'] = '0000000000001000'
+                reg_value[a3] = '0000000011111111'
+            else:
+                reg_value[a3] = '0'*8 + ansf
+
+        elif(A_sim[op_sim] == 'subf'):          #incomplete
+            value1 = f_point(int(reg_value[a1]))
+            value2 = f_point(int(reg_value[a2]))
+            diff = value1-value2
+            if(diff < 1):
+                reg_value['111'] = '0000000000001000'
+                reg_value[a3] = '0000000000000000'
+            else:
+                reg_value[a3] = '0'*8 + ansf
+
     #Type B
     elif(op_sim in B_sim):
         b1 = input_sim[i][5:8]
@@ -172,17 +235,21 @@ while i < len_sim:
             reg_value['111'] = '0000000000000000'
 
         elif(B_sim[op_sim] == 'rs'):
-            value1 = bi_to_dec(int(reg_value[b1])) 
-            value2= bi_to_dec(int(input_sim[i][8:]))
+            value1 = bi_to_dec(str(reg_value[b1])) 
+            value2= bi_to_dec(str(input_sim[i][8:]))
             ans=value1//(2**value2)   
             reg_value[b1] = dec_to_bi_16(ans)
             reg_value['111'] = '0000000000000000'
 
         elif(B_sim[op_sim] == 'ls'):
-            value1 = bi_to_dec(int(reg_value[b1])) 
-            value2= bi_to_dec(int(input_sim[i][8:]))
+            value1 = bi_to_dec(str(reg_value[b1])) 
+            value2= bi_to_dec(str(input_sim[i][8:]))
             ans=value1*(2**value2)   
             reg_value[b1] = dec_to_bi_16(ans)
+            reg_value['111'] = '0000000000000000'
+
+        elif(B_sim[op_sim] == 'movf'):        #doubtful
+            reg_value[b1] = '00000000' + input_sim[i][8:]
             reg_value['111'] = '0000000000000000'
            
     #Type C
@@ -195,8 +262,8 @@ while i < len_sim:
             reg_value['111'] = '0000000000000000'
 
         elif(C_sim[op_sim]=='div'):
-            value1 = bi_to_dec(int(reg_value[c1]))
-            value2 = bi_to_dec(int(reg_value[c2]))
+            value1 = bi_to_dec(str(reg_value[c1]))
+            value2 = bi_to_dec(str(reg_value[c2]))
             quotient = value1/value2
             rem = value1%value2
             r0 = str(dec_to_bi(quotient))
@@ -212,8 +279,8 @@ while i < len_sim:
             reg_value['111'] = '0000000000000000'
            
         elif(C_sim[op_sim]=='cmp'):
-            value1 = bi_to_dec(int(reg_value[c1]))
-            value2 = bi_to_dec(int(reg_value[c2]))
+            value1 = bi_to_dec(str(reg_value[c1]))
+            value2 = bi_to_dec(str(reg_value[c2]))
             if(value1<value2):
                 reg_value['111'] = '0000000000000100'
             elif(value1>value2):
@@ -224,7 +291,7 @@ while i < len_sim:
     #Type D
     elif(op_sim in D_sim):
         mem_add = input_sim[i][8:16]
-        x = bi_to_dec(int(mem_add))
+        x = bi_to_dec(str(mem_add))
         d1 = input_sim[i][5:8]
         if(D_sim[op_sim] == 'ld'):    #loads data of reg in mem dump
             reg_value[d1] = mem_dump[x]
@@ -237,21 +304,21 @@ while i < len_sim:
     #Type E
     elif(op_sim in E_sim):                          ###doubt
         mem_add = input_sim[i][8:16]
-        x = bi_to_dec(int(mem_add))
+        x = bi_to_dec(str(mem_add))
         if(E_sim[op_sim]=='jmp'):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jlt' and flags[13]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         elif(E_sim[op_sim]=='jgt' and flags[14]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address 
         elif(E_sim[op_sim]=='je' and flags[15]==1):
-            mem = bi_to_dec(mem_add)
+            mem = bi_to_dec(x)
             i = mem - 1
             #jump to memory address
         reg_value['111'] = '0000000000000000'
@@ -280,9 +347,9 @@ for r in range(len(final_sim)):
 for r in mem_dump:
     print(r)
 # print(*mem_dump)
-# plt.scatter(cycle_list, pc_list, label = "line 1")
-# plt.title('Cycle-Pc')
-
+plt.scatter(cycle_list, pc_list, label = "line 1")
+plt.title('Cycle-Pc')
+plt.show()
 #cmp R3 R4   (R3>R4)---14 = 1
 #add R4 R5 R6 (R4>R3)
 #jgt mem_address
